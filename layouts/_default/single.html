@@ -13,8 +13,8 @@
     <div class="page-foot">
       <div class="feedback">
         <span>Was this page helpful?</span>
-        <button class="fb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Zm0 0 4.5-7.5a2 2 0 0 1 3.6 1.4L14 8h5a2 2 0 0 1 2 2.3l-1.3 7A2 2 0 0 1 17.7 19H7"/></svg>Yes</button>
-        <button class="fb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13V4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1Zm0 0-4.5 7.5a2 2 0 0 1-3.6-1.4L10 16H5a2 2 0 0 1-2-2.3l1.3-7A2 2 0 0 1 6.3 5H17"/></svg>No</button>
+        <button type="button" class="fb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Zm0 0 4.5-7.5a2 2 0 0 1 3.6 1.4L14 8h5a2 2 0 0 1 2 2.3l-1.3 7A2 2 0 0 1 17.7 19H7"/></svg>Yes</button>
+        <button type="button" class="fb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13V4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1Zm0 0-4.5 7.5a2 2 0 0 1-3.6-1.4L10 16H5a2 2 0 0 1-2-2.3l1.3-7A2 2 0 0 1 6.3 5H17"/></svg>No</button>
         <span class="grow"></span>
         {{ with .File }}<a class="fb-btn" href="{{ $.Site.Params.githubEditBase }}/{{ .Path }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4-12 12H6v-4Z"/><path d="M14 6 4 16v4"/></svg>Edit this page</a>{{ end }}
       </div>

@@ -1,5 +1,5 @@
 {{ define "main" }}
-<div class="home">
+<main class="home">
 
   <!-- HERO -->
   <section class="hero">
@@ -25,7 +25,7 @@
           <span class="fname">Quick start</span>
           <span class="grow"></span>
           <span class="lang">bash</span>
-          <button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span class="lbl">Copy</span></button>
+          <button type="button" class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span class="lbl">Copy</span></button>
         </div>
 <pre><span class="t-cmt"># Pull and run the latest server</span>
 <span class="t-prompt">$</span> docker run <span class="t-flag">-d</span> <span class="t-flag">--name</span> listenup <span class="t-pun">\</span>
@@ -45,7 +45,7 @@
   </section>
 
   <!-- START CARDS -->
-  <div class="sec-head"><h2>Start here</h2><span class="ln"></span><span class="cnt">7 sections</span></div>
+  <div class="sec-head"><h2>Start here</h2><span class="ln"></span><span class="cnt">6 sections</span></div>
   <section class="cards">
     <div class="card">
       <a class="card-hit" href="{{ "/getting-started/installation/" | relURL }}" aria-label="Getting Started"></a>
@@ -139,7 +139,7 @@
       <p>Search the docs, browse the community forum, or open an issue on GitHub — we're happy to help.</p>
     </div>
     <div class="hbtns">
-      <button class="hbtn solid" onclick="openSearch()">
+      <button type="button" class="hbtn solid" onclick="openSearch()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         Search docs
       </button>
@@ -149,5 +149,5 @@
       </a>
     </div>
   </section>
-</div>
+</main>
 {{ end }}

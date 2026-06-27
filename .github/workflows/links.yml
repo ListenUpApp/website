@@ -27,13 +27,16 @@ jobs:
           fetch-depth: 0
       - name: Build with Hugo
         run: hugo --gc --minify --baseURL "https://listenup.audio/"
+      # On push/PR: offline check of internal links only (deterministic, fails build).
+      # On the weekly schedule: full check incl. external links (informational).
       - name: Link checker
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --no-progress
-            --base public
+            ${{ github.event_name == 'schedule' && '' || '--offline' }}
+            --root-dir ${{ github.workspace }}/public
             "public/**/*.html"
-          fail: true
+          fail: ${{ github.event_name != 'schedule' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

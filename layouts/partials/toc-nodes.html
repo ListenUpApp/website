@@ -1,0 +1,9 @@
+{{- /* Recursive: receives a slice of heading fragments.
+       Emits a flat list of links — h2 as top-level, h3+ as .sub.
+       Skips empty-ID nodes (e.g. the synthetic root Hugo creates when
+       content has no h1). */ -}}
+{{- range . -}}
+  {{- if .ID }}<a{{ if ge .Level 3 }} class="sub"{{ end }} href="#{{ .ID }}">{{ .Title | safeHTML }}</a>
+{{ end -}}
+  {{- with .Headings }}{{ partial "toc-nodes.html" . }}{{ end -}}
+{{- end -}}

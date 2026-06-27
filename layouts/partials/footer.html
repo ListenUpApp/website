@@ -1,0 +1,31 @@
+<footer class="site-foot">
+  <div class="inner">
+    <div class="fbrand">
+      <img src="{{ "images/logo-mark.png" | relURL }}" alt="ListenUp" />
+      <p>{{ .Site.Params.description }}</p>
+    </div>
+    <div class="fcol">
+      <h4>Documentation</h4>
+      <a href="{{ "/getting-started/installation/" | relURL }}">Getting Started</a>
+      <a href="{{ "/server/configuration/" | relURL }}">Server Setup</a>
+      <a href="{{ "/library/folder-structure/" | relURL }}">Library &amp; Metadata</a>
+      <a href="{{ "/help/faq/" | relURL }}">FAQ</a>
+    </div>
+    <div class="fcol">
+      <h4>Apps</h4>
+      <a href="{{ "/apps/ios/" | relURL }}">iOS &amp; iPadOS</a>
+      <a href="{{ "/apps/android/" | relURL }}">Android</a>
+      <a href="{{ "/apps/web-player/" | relURL }}">Web player</a>
+    </div>
+    <div class="fcol">
+      <h4>Project</h4>
+      <a href="{{ .Site.Params.githubRepo }}">GitHub</a>
+      <a href="{{ "/help/changelog/" | relURL }}">Changelog</a>
+      <a href="{{ "/help/faq/" | relURL }}">Help</a>
+    </div>
+  </div>
+  <div class="copy">
+    <span class="grow">© {{ now.Year }} ListenUp · Released under the MIT License</span>
+    <span class="mono">{{ .Site.Params.version }}</span>
+  </div>
+</footer>

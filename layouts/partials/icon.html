@@ -1,0 +1,11 @@
+{{- $name := . -}}
+{{- $paths := dict
+  "rocket" "<path d=\"M5 15c-1.5 1-2 5-2 5s4-.5 5-2m9.5-13.5C19 6 18 11 14 15l-5-5C13 6 18 5 19.5 5.5Z\"/>"
+  "sliders" "<path d=\"M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M8 14v6\"/>"
+  "folder" "<path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z\"/>"
+  "phone" "<rect x=\"6\" y=\"3\" width=\"12\" height=\"18\" rx=\"2.5\"/><path d=\"M11 18h2\"/>"
+  "help" "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.5 9.5a2.5 2.5 0 0 1 4 2c0 1.5-2 2-2 3.5M12 17.5h.01\"/>"
+-}}
+{{- $svg := index $paths $name -}}
+{{- if not $svg }}{{ $svg = index $paths "help" }}{{ end -}}
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ $svg | safeHTML }}</svg>

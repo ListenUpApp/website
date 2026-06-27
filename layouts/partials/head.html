@@ -49,6 +49,7 @@
         var t = localStorage.getItem('lu-docs-theme');
         if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
         if (t) document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.setAttribute('data-platform', localStorage.getItem('lu-docs-platform') || 'ios');
       } catch (e) {}
     })();
   </script>

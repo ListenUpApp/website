@@ -1,0 +1,7 @@
+{{- /* opt — one option inside {{< choice >}}. Body is Markdown.
+       Usage: {{< opt label="Option A" title="Set it at startup" >}}…{{< /opt >}} */ -}}
+<div class="opt">
+  {{- with .Get "label" }}<p class="ok">{{ . }}</p>{{ end -}}
+  {{- with .Get "title" }}<h4>{{ . }}</h4>{{ end -}}
+  {{ .Page.RenderString (dict "display" "block") .Inner }}
+</div>

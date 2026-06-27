@@ -1,3 +1,4 @@
 {{- $id := .Anchor -}}
 {{- with .Attributes.id }}{{ $id = . }}{{ end -}}
-<h{{ .Level }} id="{{ $id }}">{{ .Text | safeHTML }}<a class="h-anchor" href="#{{ $id }}" aria-label="Copy link to this section">#</a></h{{ .Level }}>
+{{- $numbered := and .Page.Params.numberedSteps (eq .Level 2) -}}
+<h{{ .Level }} id="{{ $id }}"{{ if $numbered }} class="numbered"{{ end }}>{{ if $numbered }}<span class="h2num"></span>{{ end }}{{ .Text | safeHTML }}<a class="h-anchor" href="#{{ $id }}" aria-label="Copy link to this section">#</a></h{{ .Level }}>

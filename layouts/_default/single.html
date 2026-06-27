@@ -3,11 +3,16 @@
 <div class="shell{{ if .Fragments.Headings }} with-toc{{ end }}">
   {{ partial "sidebar.html" . }}
   <main id="main" class="content" tabindex="-1">
-    <article class="article">
+    <article class="article{{ if .Params.numberedSteps }} numbered-steps{{ end }}">
       {{ partial "breadcrumb.html" . }}
       {{ with .Params.eyebrow }}<div class="eyebrow">{{ . }}</div>{{ end }}
       <h1>{{ .Title }}</h1>
       {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+      <div class="page-meta">
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>~{{ .ReadingTime }} min</span>
+        {{ with .Params.difficulty }}<span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>{{ . }}</span>{{ end }}
+        {{ with .Params.platforms }}<span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/></svg>{{ . }}</span>{{ end }}
+      </div>
       {{ .Content }}
     </article>
     <div class="page-foot">

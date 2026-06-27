@@ -14,6 +14,20 @@
     try { localStorage.setItem('lu-docs-theme', next); } catch (e) {}
   };
 
+  /* ---- platform toggle (iOS/Android screenshots) ---- */
+  function syncPlatformButtons() {
+    var os = root.getAttribute('data-platform') || 'ios';
+    Array.prototype.forEach.call(document.querySelectorAll('.seg button[data-os]'), function (b) {
+      b.classList.toggle('on', b.getAttribute('data-os') === os);
+    });
+  }
+  window.luSetPlatform = function (os) {
+    root.setAttribute('data-platform', os);
+    try { localStorage.setItem('lu-docs-platform', os); } catch (e) {}
+    syncPlatformButtons();
+  };
+  document.addEventListener('DOMContentLoaded', syncPlatformButtons);
+
   /* ---- search index (generated; fetched from index.json) ---- */
   var INDEX = [];
   var indexLoaded = false;

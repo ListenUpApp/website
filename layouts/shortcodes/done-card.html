@@ -1,0 +1,10 @@
+{{- /* done-card — completion card at the end of a guide. Body is Markdown.
+       Usage: {{< done-card title="…" link="/library/folder-structure/" linktext="Folder structure" >}}…{{< /done-card >}} */ -}}
+<div class="done-card">
+  <span class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+  <div class="db">
+    {{- with .Get "title" }}<h3>{{ . }}</h3>{{ end -}}
+    {{- with .Inner }}<p>{{ $.Page.RenderString . }}</p>{{ end -}}
+  </div>
+  {{- with .Get "link" }}<a class="dlink" href="{{ . | relURL }}">{{ $.Get "linktext" }} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>{{ end -}}
+</div>

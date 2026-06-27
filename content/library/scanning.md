@@ -59,4 +59,4 @@ A rescan only does the work that's actually changed:
 If ListenUp can't read or decode a book's audio, it still adds the book from whatever the folder name and sidecars provide, and flags it with a **warning on the book's detail screen**. That usually means the file is corrupt or in a format ListenUp doesn't support (see [supported formats](/library/folder-structure/#supported-audio-formats)). Replace or re-encode the file and the next scan clears the warning.
 
 ## Inbox
-If you don't want scanned books to hit your library until you've had a chance to enrich or sort them you can turn on the inbox under admin settings. See [Inbox](/admin/collections#inbox)
+If you don't want scanned books to hit your library until you've had a chance to enrich or sort them you can turn on the inbox under admin settings. See [Inbox](/admin/collections/#inbox)

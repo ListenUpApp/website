@@ -7,6 +7,7 @@ disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
 [params]
   version = "v2.4.1"
   versionShort = "v2.4"
+  tagline = "Your audiobooks. Your server."
   description = "The self-hosted audiobook server. Your library, your metadata, your rules — on every device you own."
   githubRepo = "https://github.com/listenup/listenup"          # TODO(owner): set to the real repo URL
   githubEditBase = "https://github.com/listenup/listenup-site/edit/master/content"  # TODO(owner): set to the real site repo + branch
@@ -27,7 +28,7 @@ disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
 
 [[menu.main]]
   name = "Home"
-  url = "/"
+  pageRef = "/"
   weight = 10
 
 [[menu.main]]

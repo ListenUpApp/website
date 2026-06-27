@@ -7,5 +7,5 @@
   "help" "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.5 9.5a2.5 2.5 0 0 1 4 2c0 1.5-2 2-2 3.5M12 17.5h.01\"/>"
 -}}
 {{- $svg := index $paths $name -}}
-{{- if not $svg }}{{ $svg = index $paths "help" }}{{ end -}}
+{{- if not $svg }}{{ warnf "icon.html: unknown icon name %q — falling back to 'help'" $name }}{{ $svg = index $paths "help" }}{{ end -}}
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ $svg | safeHTML }}</svg>

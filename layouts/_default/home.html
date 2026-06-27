@@ -6,7 +6,7 @@
     <div>
       <div class="eyebrow"><span class="pulse"></span>Self-hosted audiobooks · {{ partialCached "version.html" . "version" }}</div>
       <h1>Your audiobooks.<br /><em>Your server.</em></h1>
-      <p class="sub">ListenUp is the self-hosted audiobook server that scans your library, fetches beautiful metadata, and streams to native apps on every device you own.</p>
+      <p class="sub">ListenUp is the self-hosted audiobook server that scans your library, fetches beautiful metadata, and streams to native apps on iOS and Android.</p>
       <div class="hero-cta">
         <a class="btn-primary" href="{{ "/getting-started/installation/" | relURL }}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
@@ -88,7 +88,6 @@
       <p>Install on iPhone and iPad, connect to your server, and download for offline listening.</p>
       <div class="links">
         <a href="{{ "/apps/ios/" | relURL }}">Install &amp; connect</a>
-        <a href="{{ "/apps/ios/" | relURL }}">CarPlay &amp; widgets</a>
       </div>
     </div>
     <div class="card">
@@ -96,10 +95,9 @@
       <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
       <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6M5 10a7 7 0 0 1 14 0M5 10h14M8 17v2.5M16 17v2.5"/></svg></span>
       <h3>Android App</h3>
-      <p>Set up on phones and tablets, with Android Auto, home-screen widgets and Wear OS tiles.</p>
+      <p>Set up on phones and tablets, connect to your server, and download for offline listening.</p>
       <div class="links">
         <a href="{{ "/apps/android/" | relURL }}">Install &amp; connect</a>
-        <a href="{{ "/apps/android/" | relURL }}">Android Auto</a>
       </div>
     </div>
     <div class="card">
@@ -120,15 +118,11 @@
   <section class="platforms">
     <div class="plat">
       <span class="pic ios"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 12c0-2 1.6-3 1.7-3-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2-1.4 2.4-.4 6 1 8 .6 1 1.4 2 2.4 2 .9 0 1.3-.6 2.4-.6 1.1 0 1.4.6 2.4.6s1.7-.9 2.3-1.9c.7-1 1-2 1-2.1-.1 0-2.9-1.1-2.9-3.9ZM14 5.5c.5-.7.9-1.6.8-2.5-.8 0-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.4.9 0 1.8-.4 2.3-1.1Z"/></svg></span>
-      <div><h3>iOS &amp; iPadOS</h3><p>Liquid Glass · CarPlay · Lock Screen</p></div>
+      <div><h3>iOS &amp; iPadOS</h3><p>Native SwiftUI · Offline-first</p></div>
     </div>
     <div class="plat">
       <span class="pic android"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6M5 10a7 7 0 0 1 14 0M5 10h14M8 6 6.5 4M16 6l1.5-2M9.5 13h.01M14.5 13h.01"/></svg></span>
-      <div><h3>Android</h3><p>Material 3 · Android Auto · Wear OS</p></div>
-    </div>
-    <div class="plat">
-      <span class="pic web"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
-      <div><h3>Web</h3><p>Any browser · nothing to install</p></div>
+      <div><h3>Android</h3><p>Native Jetpack Compose · Offline-first</p></div>
     </div>
   </section>
 

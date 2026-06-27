@@ -1,0 +1,46 @@
+baseURL = "https://example.org/"
+locale = "en-us"
+title = "ListenUp"
+enableInlineShortcodes = true
+disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
+
+[params]
+  version = "v2.4.1"
+  versionShort = "v2.4"
+  description = "The self-hosted audiobook server. Your library, your metadata, your rules — on every device you own."
+  githubRepo = "https://github.com/listenup/listenup"          # TODO(owner): set to the real repo URL
+  githubEditBase = "https://github.com/listenup/listenup-site/edit/master/content"  # TODO(owner): set to the real site repo + branch
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    tabWidth = 4
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[outputs]
+  home = ["HTML", "JSON"]
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  name = "Guides"
+  pageRef = "/getting-started/installation"
+  weight = 20
+
+[[menu.main]]
+  name = "Apps"
+  url = "/#apps"
+  weight = 30
+
+[[menu.main]]
+  name = "Changelog"
+  pageRef = "/help/changelog"
+  weight = 40

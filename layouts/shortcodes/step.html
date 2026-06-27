@@ -1,0 +1,11 @@
+{{/* layouts/shortcodes/step.html
+     One step. First positional arg is the title; the body is Markdown.
+     Usage:
+       {{< step "Create the admin account" >}}
+       The first account you make becomes the **owner**…
+       {{< /step >}}                                              */}}
+<div class="step">
+  <span class="num"></span>
+  {{ with .Get 0 }}<h3>{{ . }}</h3>{{ end }}
+  {{ .Inner | markdownify }}
+</div>

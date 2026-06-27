@@ -1,8 +1,10 @@
 {{- $items := slice -}}
 {{- range .Site.RegularPages -}}
+  {{- if ne .Layout "standalone" -}}
   {{- $g := "" -}}{{- with .Parent }}{{ $g = .Title }}{{- end -}}
   {{- $i := .Params.icon -}}{{- if not $i -}}{{- with .Parent }}{{ $i = .Params.icon }}{{- end -}}{{- end -}}
   {{- $d := .Description -}}{{- if not $d -}}{{- $d = (.Summary | plainify | truncate 90) -}}{{- end -}}
   {{- $items = $items | append (dict "g" $g "t" .Title "d" $d "p" .RelPermalink "i" ($i | default "home")) -}}
+  {{- end -}}
 {{- end -}}
 {{- $items | jsonify -}}

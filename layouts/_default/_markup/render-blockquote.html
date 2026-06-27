@@ -1,0 +1,16 @@
+{{- if eq .AlertType "" -}}
+  <blockquote>{{ .Text }}</blockquote>
+{{- else -}}
+  {{- $cls := "info" -}}{{- $icon := "info" -}}
+  {{- if eq .AlertType "tip" -}}{{- $cls = "tip" -}}{{- $icon = "check" -}}{{- end -}}
+  {{- if eq .AlertType "warning" -}}{{- $cls = "warn" -}}{{- $icon = "warn" -}}{{- end -}}
+  {{- if eq .AlertType "caution" -}}{{- $cls = "warn" -}}{{- $icon = "warn" -}}{{- end -}}
+  {{- $svg := "" -}}
+  {{- if eq $icon "info" -}}{{- $svg = "<path d=\"M12 8h.01M11 12h1v4h1\"/><circle cx=\"12\" cy=\"12\" r=\"9\"/>" -}}{{- end -}}
+  {{- if eq $icon "check" -}}{{- $svg = "<path d=\"m5 13 4 4L19 7\"/>" -}}{{- end -}}
+  {{- if eq $icon "warn" -}}{{- $svg = "<path d=\"M12 9v4M12 17h.01M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z\"/>" -}}{{- end -}}
+  <div class="note {{ $cls }}">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{{ $svg | safeHTML }}</svg></span>
+    <div class="bd">{{ .Text }}</div>
+  </div>
+{{- end -}}

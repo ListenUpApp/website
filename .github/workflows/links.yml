@@ -33,7 +33,6 @@ jobs:
           args: >-
             --no-progress
             --base public
-            --exclude-mail
             "public/**/*.html"
           fail: true
         env:

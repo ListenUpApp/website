@@ -26,7 +26,7 @@
     </div>
   </div>
   <div class="copy">
-    <span class="grow">© {{ now.Year }} ListenUp · Released under the MIT License</span>
-    <span class="mono">{{ .Site.Params.version }}</span>
+    <span class="grow">© {{ now.Year }} ListenUp · Released under the GNU AGPL v3.0</span>
+    <span class="mono">{{ partialCached "version.html" . "version" }}</span>
   </div>
 </footer>

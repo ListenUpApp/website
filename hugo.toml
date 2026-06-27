@@ -5,8 +5,7 @@ enableInlineShortcodes = true
 disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
 
 [params]
-  version = "v2.4.1"
-  versionShort = "v2.4"
+  version = "0.6.0"   # fallback only; live value pulled from the main repo's VERSION at build (partials/version.html)
   tagline = "Your audiobooks. Your server."
   description = "The self-hosted audiobook server. Your library, your metadata, your rules — on every device you own."
   githubRepo = "https://github.com/ListenUpApp/website"

@@ -1,0 +1,13 @@
+{{- /* version.html — returns the app version (e.g. "v0.6.0").
+       Pulled live at build time from the main repo's public VERSION file,
+       with a hugo.toml fallback so offline / failed builds never break.
+       Call via: {{ partialCached "version.html" . "version" }} */ -}}
+{{- $v := .Site.Params.version | default "0.0.0" -}}
+{{- $url := "https://raw.githubusercontent.com/ListenUpApp/ListenUp/main/VERSION" -}}
+{{- $t := try (resources.GetRemote $url) -}}
+{{- with $t.Err -}}
+  {{- warnf "version.html: could not fetch VERSION (%s); using fallback %q" . $v -}}
+{{- else with $t.Value -}}
+  {{- $v = .Content | strings.TrimSpace -}}
+{{- end -}}
+{{- return (printf "v%s" $v) -}}

@@ -2,9 +2,6 @@
   {{ range .Site.Sections.ByWeight }}
     <div class="side-group">
       <div class="grp-label"><span class="gi">{{ partial "icon.html" (.Params.icon | default "help") }}</span>{{ .Title }}</div>
-      {{ if .Params.showHomeLink }}
-        <a class="side-link{{ if $.IsHome }} on{{ end }}" href="{{ "/" | relURL }}"><span class="dot"></span>Introduction</a>
-      {{ end }}
       {{ range .Pages.ByWeight }}
         <a class="side-link{{ if eq $.RelPermalink .RelPermalink }} on{{ end }}" href="{{ .RelPermalink }}"><span class="dot"></span>{{ .Title }}</a>
       {{ end }}

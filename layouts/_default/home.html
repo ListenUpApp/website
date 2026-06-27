@@ -4,7 +4,7 @@
   <!-- HERO -->
   <section class="hero">
     <div>
-      <div class="eyebrow"><span class="pulse"></span>Self-hosted audiobooks · {{ .Site.Params.versionShort }}</div>
+      <div class="eyebrow"><span class="pulse"></span>Self-hosted audiobooks · {{ partialCached "version.html" . "version" }}</div>
       <h1>Your audiobooks.<br /><em>Your server.</em></h1>
       <p class="sub">ListenUp is the self-hosted audiobook server that scans your library, fetches beautiful metadata, and streams to native apps on every device you own.</p>
       <div class="hero-cta">
@@ -37,7 +37,7 @@
 <span class="t-cmt"># → open http://localhost:8970 to finish setup</span></pre>
       </div>
       <div class="meta-row">
-        <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>Open source · MIT</span>
+        <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>Open source · AGPL-3.0</span>
         <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>amd64 · arm64</span>
         <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>No telemetry</span>
       </div>

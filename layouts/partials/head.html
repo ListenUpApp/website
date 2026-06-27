@@ -1,8 +1,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.tagline }}{{ else }}{{ .Title }} — {{ .Site.Title }} Docs{{ end }}</title>
-  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+  {{- $desc := cond (ne .Description "") .Description .Site.Params.description -}}
+  {{- $title := cond .IsHome (printf "%s — %s" .Site.Title .Site.Params.tagline) (printf "%s — %s Docs" .Title .Site.Title) -}}
+  {{- $ogimg := "images/logo-mark.png" | absURL -}}
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}" />
+  <link rel="canonical" href="{{ .Permalink }}" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="{{ cond .IsHome "website" "article" }}" />
+  <meta property="og:site_name" content="{{ .Site.Title }}" />
+  <meta property="og:title" content="{{ $title }}" />
+  <meta property="og:description" content="{{ $desc }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:image" content="{{ $ogimg }}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ $title }}" />
+  <meta name="twitter:description" content="{{ $desc }}" />
+  <meta name="twitter:image" content="{{ $ogimg }}" />
+
   <link rel="icon" href="{{ "images/logo-mark.png" | relURL }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,6 +27,20 @@
   {{ with resources.Get "css/listenup-docs.css" }}
     {{ $css := . | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+  {{ if .IsHome }}
+  {{ $ld := dict
+    "@context" "https://schema.org"
+    "@type" "SoftwareApplication"
+    "name" .Site.Title
+    "description" .Site.Params.description
+    "url" .Permalink
+    "applicationCategory" "MultimediaApplication"
+    "operatingSystem" "iOS, Android, Linux"
+    "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+    "license" "https://www.gnu.org/licenses/agpl-3.0.html"
+    "isAccessibleForFree" true }}
+  <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
   {{ end }}
   <script>
     /* set theme before paint to avoid a flash */

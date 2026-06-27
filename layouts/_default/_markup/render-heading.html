@@ -1,0 +1,3 @@
+{{- $id := .Anchor -}}
+{{- with .Attributes.id }}{{ $id = . }}{{ end -}}
+<h{{ .Level }} id="{{ $id }}">{{ .Text | safeHTML }}<a class="h-anchor" href="#{{ $id }}" aria-label="Copy link to this section">#</a></h{{ .Level }}>

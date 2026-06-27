@@ -50,7 +50,7 @@
     overlay = document.createElement('div');
     overlay.className = 'search-overlay';
     overlay.innerHTML =
-      '<div class="search-box" role="dialog" aria-label="Search docs">' +
+      '<div class="search-box" role="dialog" aria-modal="true" aria-label="Search docs">' +
         '<div class="search-head">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>' +
           '<input type="text" placeholder="Search the documentation…" autocomplete="off" spellcheck="false" />' +
@@ -63,6 +63,15 @@
     input = overlay.querySelector('input');
     resultsEl = overlay.querySelector('.search-results');
     overlay.addEventListener('click', function (e) { if (e.target === overlay) closeSearch(); });
+    overlay.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); closeSearch(); return; }
+      if (e.key !== 'Tab') return;
+      var f = overlay.querySelectorAll('input, a[href]');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     input.addEventListener('input', render);
     input.addEventListener('keydown', onKey);
     render();
@@ -104,13 +113,19 @@
     if (r.bottom > pr.bottom) resultsEl.scrollTop += r.bottom - pr.bottom + 8;
     if (r.top < pr.top) resultsEl.scrollTop -= pr.top - r.top + 8;
   }
+  var lastFocus = null;
   window.openSearch = function () {
     if (!overlay) buildModal();
+    lastFocus = document.activeElement;
     overlay.classList.add('open'); input.value = '';
     loadIndex(function () { render(); });
     setTimeout(function () { input.focus(); }, 30);
   };
-  function closeSearch() { if (overlay) overlay.classList.remove('open'); }
+  function closeSearch() {
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
 
   /* ---- global keys ---- */
   document.addEventListener('keydown', function (e) {
@@ -132,6 +147,19 @@
     btn.classList.add('done');
     if (orig) orig.textContent = 'Copied';
     setTimeout(function () { btn.classList.remove('done'); if (orig) orig.textContent = 'Copy'; }, 1600);
+  });
+
+  /* ---- heading anchors: click to copy a deep link ---- */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.h-anchor');
+    if (!a || !navigator.clipboard) return;
+    e.preventDefault();
+    var href = a.getAttribute('href');
+    navigator.clipboard.writeText(location.origin + location.pathname + href).then(function () {
+      history.replaceState(null, '', href);
+      a.classList.add('copied');
+      setTimeout(function () { a.classList.remove('copied'); }, 1200);
+    });
   });
 
   /* ---- lightbox (click a screenshot to enlarge) ---- */

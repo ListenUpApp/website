@@ -2,6 +2,8 @@ baseURL = "https://example.org/"
 locale = "en-us"
 title = "ListenUp"
 enableInlineShortcodes = true
+enableGitInfo = true                  # per-page "last updated" from git commit dates
+enableRobotsTXT = true                # generate robots.txt (template: layouts/robots.txt)
 disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
 
 [params]

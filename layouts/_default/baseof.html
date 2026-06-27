@@ -2,6 +2,7 @@
 <html lang="{{ .Site.Language.Lang }}">
 {{ partial "head.html" . }}
 <body data-search-index="{{ "index.json" | relURL }}"{{ with .Params.screenLabel }} data-screen-label="{{ . }}"{{ end }}>
+  <a class="skip-link" href="#main">Skip to content</a>
   {{ partial "nav.html" . }}
   {{ block "main" . }}{{ end }}
   {{ partial "footer.html" . }}

@@ -9,8 +9,8 @@ disableKinds = ["taxonomy", "term"]   # docs site: no tags/categories
   versionShort = "v2.4"
   tagline = "Your audiobooks. Your server."
   description = "The self-hosted audiobook server. Your library, your metadata, your rules — on every device you own."
-  githubRepo = "https://github.com/listenup/listenup"          # TODO(owner): set to the real repo URL
-  githubEditBase = "https://github.com/listenup/listenup-site/edit/master/content"  # TODO(owner): set to the real site repo + branch
+  githubRepo = "https://github.com/ListenUpApp/website"
+  githubEditBase = "https://github.com/ListenUpApp/website/edit/master/content"
 
 [markup]
   [markup.goldmark.renderer]

@@ -29,16 +29,18 @@
         </div>
 <pre><span class="t-cmt"># Pull and run the latest server</span>
 <span class="t-prompt">$</span> docker run <span class="t-flag">-d</span> <span class="t-flag">--name</span> listenup <span class="t-pun">\</span>
-    <span class="t-flag">-p</span> <span class="t-num">8970</span>:<span class="t-num">8970</span> <span class="t-pun">\</span>
-    <span class="t-flag">-v</span> <span class="t-str">./config</span>:/config <span class="t-pun">\</span>
-    <span class="t-flag">-v</span> <span class="t-str">./audiobooks</span>:/audiobooks <span class="t-pun">\</span>
-    listenup/server:<span class="t-key">latest</span>
+    <span class="t-flag">-p</span> <span class="t-num">8080</span>:<span class="t-num">8080</span> <span class="t-pun">\</span>
+    <span class="t-flag">-v</span> <span class="t-str">listenup-data</span>:/data <span class="t-pun">\</span>
+    <span class="t-flag">-v</span> <span class="t-str">./audiobooks</span>:/audiobooks:<span class="t-key">ro</span> <span class="t-pun">\</span>
+    <span class="t-flag">-e</span> LISTENUP_HOME=<span class="t-str">/data</span> <span class="t-pun">\</span>
+    <span class="t-flag">-e</span> LISTENUP_LIBRARY_PATH=<span class="t-str">/audiobooks</span> <span class="t-pun">\</span>
+    ghcr.io/listenupapp/listenup-server:<span class="t-key">latest</span>
 
-<span class="t-cmt"># → open http://localhost:8970 to finish setup</span></pre>
+<span class="t-cmt"># → then open the ListenUp app to finish setup</span></pre>
       </div>
       <div class="meta-row">
         <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>Open source · AGPL-3.0</span>
-        <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>amd64 · arm64</span>
+        <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>Linux · amd64</span>
         <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>No telemetry</span>
       </div>
     </div>
@@ -130,7 +132,7 @@
   <section class="helpstrip">
     <div class="ht">
       <h3>Can't find what you need?</h3>
-      <p>Search the docs, browse the community forum, or open an issue on GitHub — we're happy to help.</p>
+      <p>Search the docs, browse the community forum, or open an issue on GitHub. We're happy to help.</p>
     </div>
     <div class="hbtns">
       <button type="button" class="hbtn solid" onclick="openSearch()">

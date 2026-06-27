@@ -236,6 +236,7 @@ a { color: inherit; text-decoration: none; }
 .article p { margin: 0 0 16px; }
 .article a.tlink { color: var(--coral); font-weight: 600; border-bottom: 1px solid var(--coral-ring); transition: border-color .15s; }
 .article a.tlink:hover { border-bottom-color: var(--coral); }
+.article li .li-desc { display: block; color: var(--ink-3); font-size: 14px; margin-top: 1px; }
 .article strong { font-weight: 700; color: var(--ink); }
 .article ul, .article ol { margin: 0 0 18px; padding-left: 22px; }
 .article li { margin: 7px 0; padding-left: 4px; }
@@ -456,8 +457,10 @@ a { color: inherit; text-decoration: none; }
   body.nav-open .sidebar { transform: translateX(0); }
   .nav-burger { display: inline-flex; }
   .nav-links { display: none; }
-  .search-trig { width: 38px; padding: 0; justify-content: center; }
+  .search-trig { width: 38px; padding: 0; gap: 0; justify-content: center; color: var(--ink-2); }
+  .search-trig:hover { background: var(--surface-2); color: var(--ink); }
   .search-trig .lbl, .search-trig kbd { display: none; }
+  .search-trig svg { width: 18px; height: 18px; }
   .scrim { position: fixed; inset: var(--nav-h) 0 0 0; background: rgba(0,0,0,0.3); z-index: 65; opacity: 0; pointer-events: none; transition: opacity .2s; }
   body.nav-open .scrim { opacity: 1; pointer-events: auto; }
   .article { padding: 32px 22px 0; }
@@ -592,3 +595,85 @@ a { color: inherit; text-decoration: none; }
 /* punctuation / operators */
 .code .chroma .p, .code .chroma .o, .code .chroma .ow { color: var(--code-dim); }
 .code .chroma .err { color: inherit; background: transparent; }
+
+/* ============================================================
+   TABLES  (reference tables, e.g. env-var config)
+   ============================================================ */
+.table-wrap { overflow-x: auto; margin: 0 0 24px; }
+.table-wrap > table { margin: 0; }
+.article table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px; line-height: 1.5;
+}
+.article th, .article td {
+  text-align: left; padding: 9px 14px; vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.article thead th {
+  font-family: var(--font-display); font-weight: 600; font-size: 12.5px;
+  color: var(--ink-2); background: var(--surface-2);
+  border-bottom: 1px solid var(--hairline); white-space: nowrap;
+}
+.article tbody tr:last-child td { border-bottom: none; }
+.article tbody td { color: var(--ink-2); }
+.article tbody td:first-child { white-space: nowrap; }
+.article table code { font-size: 0.85em; }
+
+/* ============================================================
+   SCREENSHOTS  (side-by-side app screenshots, e.g. iOS + Android)
+   ============================================================ */
+.screenshots { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 4px 0 26px; }
+.screenshots .shot { margin: 0; flex: 0 0 auto; text-align: center; }
+.screenshots .shot img {
+  height: 420px; width: auto; max-width: 100%; display: block;
+  border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow-card);
+}
+@media (max-width: 520px) { .screenshots .shot img { height: 340px; } }
+.screenshots .shot a.lightbox { display: block; cursor: zoom-in; }
+
+/* ============================================================
+   LIGHTBOX  (enlarged image overlay; see docs.js)
+   ============================================================ */
+.lightbox-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center; padding: 4vh 4vw;
+  background: rgba(0,0,0,0.82);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity .18s; cursor: zoom-out;
+}
+.lightbox-overlay.open { opacity: 1; }
+.lightbox-overlay img { max-width: 100%; max-height: 92vh; border-radius: 14px; box-shadow: var(--shadow-pop); }
+@media (prefers-reduced-motion: reduce) { .lightbox-overlay { transition: none; } }
+
+/* ============================================================
+   FILETREE  (styled folder/file tree; see the filetree shortcode)
+   ============================================================ */
+.filetree {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 12px 10px; margin: 0 0 24px; overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  font-size: 14px; line-height: 1.5;
+}
+.filetree .ft-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 4px 10px 4px 0; border-radius: 8px; white-space: nowrap;
+}
+.filetree .ft-ic { width: 17px; height: 17px; flex-shrink: 0; color: var(--ink-3); }
+.filetree .ft-row.ft-folder .ft-ic { color: var(--coral); }
+.filetree .ft-name { color: var(--ink); }
+.filetree .ft-note { color: var(--ink-3); font-size: 12.5px; }
+.filetree .ft-note::before { content: "·"; margin-right: 7px; opacity: .6; }
+.filetree .ft-row.ft-book { background: var(--coral-soft); }
+.filetree .ft-row.ft-book .ft-ic { color: var(--coral); }
+.filetree .ft-row.ft-book .ft-name { color: var(--coral-deep); font-weight: 700; }
+[data-theme="dark"] .filetree .ft-row.ft-book .ft-name { color: #F2A088; }
+.filetree .ft-badge {
+  margin-left: auto; padding: 2px 8px; border-radius: 6px;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--on-coral); background: var(--coral);
+}
+.screenshots .shot figcaption {
+  margin-top: 9px; font-family: var(--font-display); font-weight: 600;
+  font-size: 12.5px; color: var(--ink-3);
+}

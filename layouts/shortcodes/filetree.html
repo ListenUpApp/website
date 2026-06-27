@@ -1,0 +1,50 @@
+{{- /* filetree — a styled folder/file tree.
+       Author with 2 spaces per level. A leading "* " marks the highlighted
+       "book" row. " // note" adds a muted annotation. Trailing "/" = folder;
+       otherwise the icon is chosen from the file extension.
+
+       {{< filetree >}}
+       Audiobooks/
+         Brandon Sanderson/ // author
+           Stormlight Archive/ // series
+           * The Way of Kings/ // a book
+               01 - Prologue.m4b
+               cover.jpg
+       {{< /filetree >}} */ -}}
+{{- $icons := dict
+  "folder" "<path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z\"/>"
+  "audio"  "<path d=\"M9 18V6l10-2v12\"/><circle cx=\"6\" cy=\"18\" r=\"2.5\"/><circle cx=\"16\" cy=\"16\" r=\"2.5\"/>"
+  "image"  "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"8.5\" cy=\"9.5\" r=\"1.6\"/><path d=\"m21 16-5-5L5 20\"/>"
+  "doc"    "<path d=\"M5 3h9l5 5v13a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0Z\"/><path d=\"M14 3v5h5\"/>"
+-}}
+<div class="filetree">
+{{- range (split (trim .Inner "\n") "\n") -}}
+  {{- $raw := . -}}
+  {{- if trim $raw " " -}}
+    {{- $body := strings.TrimLeft " " $raw -}}
+    {{- $depth := div (sub (len $raw) (len $body)) 2 -}}
+    {{- $book := false -}}
+    {{- if strings.HasPrefix $body "* " }}{{ $book = true }}{{ $body = strings.TrimPrefix "* " $body }}{{ end -}}
+    {{- $note := "" -}}
+    {{- if strings.Contains $body " // " }}{{ $p := split $body " // " }}{{ $body = index $p 0 }}{{ $note = index $p 1 }}{{ end -}}
+    {{- $name := trim $body " " -}}
+    {{- $type := "file" -}}
+    {{- if strings.HasSuffix $name "/" -}}
+      {{- $type = "folder" -}}{{- $name = strings.TrimSuffix "/" $name -}}
+    {{- else -}}
+      {{- $ext := lower (path.Ext $name) -}}
+      {{- if in (slice ".m4b" ".mp3" ".m4a" ".flac" ".opus" ".ogg" ".oga" ".aac" ".wav" ".aiff") $ext }}{{ $type = "audio" }}
+      {{- else if in (slice ".jpg" ".jpeg" ".png" ".webp") $ext }}{{ $type = "image" }}
+      {{- else if in (slice ".json" ".opf" ".nfo" ".txt") $ext }}{{ $type = "doc" }}{{ end -}}
+    {{- end -}}
+    {{- $ic := "doc" -}}
+    {{- if eq $type "folder" }}{{ $ic = "folder" }}{{ else if eq $type "audio" }}{{ $ic = "audio" }}{{ else if eq $type "image" }}{{ $ic = "image" }}{{ end -}}
+    <div class="ft-row ft-{{ $type }}{{ if $book }} ft-book{{ end }}" style="padding-left: {{ add 10 (mul $depth 22) }}px">
+      <svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{{ index $icons $ic | safeHTML }}</svg>
+      <span class="ft-name">{{ $name }}</span>
+      {{- with $note }}<span class="ft-note">{{ . }}</span>{{ end -}}
+      {{- if $book }}<span class="ft-badge">book</span>{{ end -}}
+    </div>
+  {{- end -}}
+{{- end -}}
+</div>

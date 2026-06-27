@@ -10,7 +10,7 @@
       {{ with .Content }}{{ . }}{{ end }}
       <ul>
         {{ range .Pages.ByWeight }}
-          <li><a class="tlink" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Description }} — {{ . }}{{ end }}</li>
+          <li><a class="tlink" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Description }}<span class="li-desc">{{ . }}</span>{{ end }}</li>
         {{ end }}
       </ul>
     </article>

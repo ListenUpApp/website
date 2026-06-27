@@ -1,142 +1,108 @@
 +++
 title = "Installation"
 weight = 10
-description = "Run the server with Docker in minutes"
+description = "Run the ListenUp server with Docker, then finish setup from the app."
 [params]
 eyebrow = "Getting Started"
-lede = "Stand up your own ListenUp server in a few minutes. Docker is the recommended path on every platform — one image, two volumes, and you're streaming your library to every device."
+lede = "Stand up your own ListenUp server with Docker: one container, one data volume, and your audiobooks. Then finish setup from the app."
 +++
 
 > [!NOTE]
-> ListenUp is **server software you host yourself**. There's no cloud account and nothing to sign up for — you run the server, then connect the apps to it. Your files and listening history never leave your machine.
+> ListenUp is **server software you host yourself**. There's no cloud account and nothing to sign up for. You run the server, then connect the apps to it. Your files and listening history never leave your machine.
 
 ## System requirements
 
-ListenUp is light. It happily runs on a Raspberry Pi 4, a spare laptop, or a corner of your NAS. The numbers below are comfortable minimums for a single household.
+ListenUp's server is a small native binary, so it's happy on modest hardware.
 
-- **CPU** — any 64-bit processor (amd64 or arm64). Direct streaming uses almost nothing; transcoding is optional.
-- **Memory** — 512 MB RAM minimum, 1 GB recommended once your library passes a few thousand books.
-- **Storage** — space for your audiobooks, plus roughly `50 MB` for the database and cached cover art per 1,000 titles.
-- **OS** — Linux, macOS, or Windows with Docker installed. Bare-metal binaries are available for Linux and macOS.
+- **CPU & OS**: a 64-bit **x86 (amd64)** Linux host with Docker. The server currently ships as a native `linux/amd64` image; arm64 isn't supported yet.
+- **Memory**: light. There's no JVM, so a small VPS, a NAS, or a spare home server is plenty.
+- **Storage**: room for your audiobooks, plus a little for ListenUp's own data directory (the database and cached cover art).
 
 > [!TIP]
-> **Already running a media server?** ListenUp sits comfortably alongside Plex, Jellyfin or *arr stacks. Just give it its own port (default `8970`) and point it at a read-only mount of your audiobook folder.
+> **Already running a media server?** ListenUp sits comfortably alongside Plex, Jellyfin or *arr stacks. Give it its own port (default `8080`) and point it at a read-only mount of your audiobook folder.
 
 ## Install with Docker
 
-The fastest way to a running server is a single `docker run`. Map a port and two volumes — one for ListenUp's own data, one (or more) pointing at your audiobooks.
+ListenUp ships as a single image: `ghcr.io/listenupapp/listenup-server`. It needs one persistent volume for its own data (the directory pointed to by `LISTENUP_HOME`) and a mount for your audiobooks.
 
 ```bash {file="terminal"}
 docker run -d --name listenup \
-    -p 8970:8970 \
-    -v /srv/listenup/config:/config \
-    -v /srv/listenup/metadata:/metadata \
+    -p 8080:8080 \
+    -v listenup-data:/data \
     -v /mnt/media/audiobooks:/audiobooks:ro \
+    -e LISTENUP_HOME=/data \
+    -e LISTENUP_LIBRARY_PATH=/audiobooks \
     --restart unless-stopped \
-    listenup/server:latest
+    ghcr.io/listenupapp/listenup-server:latest
 ```
 
-That's enough to get going, but most people prefer a **Compose file** they can version-control. Drop this in a `docker-compose.yml` and run `docker compose up -d`:
+Most people prefer a **Compose file** they can version-control. Drop this in a `docker-compose.yml` and run `docker compose up -d`:
 
 ```yaml {file="docker-compose.yml"}
 services:
   listenup:
-    image: listenup/server:latest
+    image: ghcr.io/listenupapp/listenup-server:latest
     container_name: listenup
     ports:
-      - "8970:8970"
+      - "8080:8080"
     environment:
-      TZ: America/New_York
-      LISTENUP_BASE_URL: https://listen.example.com
+      LISTENUP_HOME: /data
+      LISTENUP_LIBRARY_PATH: /audiobooks
     volumes:
-      - ./config:/config
-      - ./metadata:/metadata
+      - listenup-data:/data
       - /mnt/media/audiobooks:/audiobooks:ro
     restart: unless-stopped
+
+volumes:
+  listenup-data:
 ```
 
 > [!WARNING]
-> Mount your audiobook folder **read-only** (`:ro`) unless you want ListenUp to write metadata tags back into your files. ListenUp never moves or renames your media — but read-only guarantees it.
+> Mount your audiobooks **read-only** (`:ro`). ListenUp only ever reads them. It never moves, renames, or writes tags back into your files. Everything it derives lives in its own database instead.
+
+`LISTENUP_LIBRARY_PATH` is optional: leave it unset to start with an empty library and add your folders later from the app. Multiple folders are separated by `:` (for example `-e LISTENUP_LIBRARY_PATH=/audiobooks:/podcasts`). See the [Configuration reference](/server/configuration/) for every setting.
 
 ### Verify it's running
 
-Once the container is up, check the health endpoint. A `200 OK` with `"status":"ok"` means the server is ready for setup.
+Once the container is up, check the health endpoint. A `200 OK` with `{"status":"ok"}` means the server is ready.
 
 ```bash {file="terminal"}
-curl http://localhost:8970/healthz
-# { "status": "ok", "version": "2.4.1", "db": "ready" }
+curl http://localhost:8080/healthz
+# {"status":"ok"}
 ```
 
 ## First-run setup {#first-run}
 
-Open `http://localhost:8970` (or your server's address) in a browser. The first time ListenUp boots with an empty database it walks you through a short setup wizard.
+ListenUp has no web interface. You set the server up **from the app**. Install ListenUp on your phone, point it at your server, and it walks you through creating the owner account.
 
 {{< steps >}}
 
-{{< step "Create the admin account" >}}
-The very first account you make becomes the server **owner** — it can manage users, libraries and server settings. Pick a strong password; there's no email-reset, this is your server.
+{{< step "Install the app and connect" >}}
+Get ListenUp for [iOS](/apps/ios/) or [Android](/apps/android/). On the same network it discovers your server automatically; otherwise enter its address (for example `http://your-host:8080`).
 {{< /step >}}
 
-{{< step "Add a library" >}}
-Point ListenUp at the folder you mounted (`/audiobooks`). You can add several libraries later — for example one for *Audiobooks* and one for *Podcasts* — each with its own folders and scan schedule.
+{{< step "Create the owner account" >}}
+The first account you make becomes the server **owner**, with full control over users, libraries, collections, and settings. There's no email reset; this is your server, so pick a strong password.
 {{< /step >}}
 
-{{< step "Run the first scan" >}}
-ListenUp walks your folders, groups files into books, and reads embedded tags. A few thousand titles take a couple of minutes. You can keep using the app while it works — books stream in as they're found.
+{{< step "Add your library" >}}
+If you didn't set `LISTENUP_LIBRARY_PATH`, add your audiobook folders from **Administration**. ListenUp walks the folders, groups files into books, and reads embedded tags. A few thousand titles take a couple of minutes, and books stream in as they're found.
 {{< /step >}}
 
 {{< step "Match metadata" >}}
-For anything missing a cover or author, open **Match metadata** and ListenUp fetches details by title, author or ASIN — covers, series order, narrators and descriptions, all in one pass.
+For anything missing a cover or author, fetch details by title, author, or ASIN: covers, series order, narrators, and descriptions, all in one pass.
 {{< /step >}}
 
 {{< /steps >}}
 
 > [!TIP]
-> Now connect an app. Open ListenUp on [iOS](/apps/ios/) or [Android](/apps/android/), enter your server URL, and sign in with the admin account you just created. To invite family members, head to **Admin → Invites**.
+> To bring in family or friends, open **Administration → Invites** and share an invite link. New sign-ups otherwise follow your [registration policy](/server/configuration/) (an approval queue by default).
 
-## Configuration
+## Next steps
 
-ListenUp reads configuration from environment variables, which override the defaults written to `/config/config.toml`. The most common ones:
+With the server running and the app connected, the Server Setup guides cover the rest:
 
-- `LISTENUP_PORT` — HTTP port inside the container. Default `8970`.
-- `LISTENUP_BASE_URL` — the public URL clients use. Set this when running behind a reverse proxy so links and cover art resolve correctly.
-- `LISTENUP_SCAN_CRON` — cron expression for automatic rescans. Default `0 */6 * * *` (every six hours).
-- `LISTENUP_TRANSCODE` — `auto`, `always` or `off`. Leave on `auto` to only transcode when a client can't play the source directly.
-- `TZ` — your timezone, so scan schedules and timestamps read correctly.
-
-### Reverse proxy & HTTPS {#reverse-proxy-https}
-
-To reach ListenUp from outside your network — and to get the apps connecting over HTTPS — put it behind a reverse proxy. Caddy makes this a two-line affair with automatic certificates:
-
-```caddyfile {file="Caddyfile"}
-listen.example.com {
-    reverse_proxy localhost:8970
-}
-```
-
-Then set `LISTENUP_BASE_URL` to `https://listen.example.com` and restart the container. Nginx and Traefik work too — the only requirements are that WebSocket upgrades pass through and the `X-Forwarded-*` headers are forwarded.
-
-> [!WARNING]
-> The mobile apps require a valid TLS certificate to connect over the public internet. Self-signed certificates work on the local network only — use a proper proxy with Let's Encrypt for remote access.
-
-## Updating
-
-Updates are a pull-and-restart. ListenUp migrates its database automatically on boot and is safe to roll back one minor version if needed.
-
-```bash {file="terminal"}
-docker compose pull
-docker compose up -d
-# existing config & library scans are preserved
-```
-
-> [!TIP]
-> Pin a specific version in production by replacing `:latest` with a tag like `:2.4.1`. The changelog notes any migration that can't be rolled back.
-
-## What to back up
-
-Your audiobooks are your own files — back them up however you already do. For ListenUp itself, only two folders matter, and both are tiny:
-
-- `/config` — the database, users, shelves, progress and server settings.
-- `/metadata` — cached cover art and downloaded metadata. Safe to lose; it re-downloads, but backing it up saves a re-fetch.
-
-ListenUp can also write scheduled snapshots and restore from an Audiobookshelf export.
+- **[Configuration](/server/configuration/)**: every environment variable.
+- **[Reverse proxy & HTTPS](/server/reverse-proxy/)**: reach ListenUp across the internet, with HTTPS.
+- **[Updating](/server/updating/)**: pull a new image and restart.
+- **[Backups](/server/backups/)**: snapshots, restore, and migrating from Audiobookshelf.

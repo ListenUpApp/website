@@ -1,0 +1,7 @@
+{{- /* Style Markdown content links as visible links (.tlink), and make
+       root-relative internal links baseURL/subpath-safe. Template links
+       (nav, breadcrumb, footer, TOC) are unaffected — only Markdown links
+       flow through this hook. */ -}}
+{{- $u := .Destination -}}
+{{- if hasPrefix $u "/" }}{{ $u = $u | relURL }}{{ end -}}
+<a class="tlink" href="{{ $u | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>

@@ -3,7 +3,7 @@
     <div class="side-group">
       <div class="grp-label"><span class="gi">{{ partial "icon.html" (.Params.icon | default "help") }}</span>{{ .Title }}</div>
       {{ range .Pages.ByWeight }}
-        <a class="side-link{{ if eq $.RelPermalink .RelPermalink }} on{{ end }}" href="{{ .RelPermalink }}"><span class="dot"></span>{{ .Title }}</a>
+        <a class="side-link{{ if eq $.RelPermalink .RelPermalink }} on{{ end }}" href="{{ .RelPermalink }}"><span class="dot"></span>{{ .LinkTitle }}</a>
       {{ end }}
     </div>
   {{ end }}

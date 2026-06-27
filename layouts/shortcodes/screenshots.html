@@ -1,0 +1,23 @@
+{{- /* screenshots — render one or more app screenshots from assets/images/ side by
+       side, resized + converted to WebP by Hugo's image processing. Auto-labels
+       iOS / Android from the filename.
+       Usage: {{< screenshots "server-select-ios.png" "server-select-android.png" >}} */ -}}
+<div class="screenshots">
+{{- range .Params -}}
+  {{- $name := . -}}
+  {{- with resources.Get (printf "images/%s" $name) -}}
+    {{- $img := .Process "resize x1080 q85 webp" -}}
+    {{- $full := .Process "resize x2000 q85 webp" -}}
+    {{- $label := "" -}}
+    {{- if strings.Contains (lower $name) "ios" }}{{ $label = "iOS" }}{{ else if strings.Contains (lower $name) "android" }}{{ $label = "Android" }}{{ end -}}
+    <figure class="shot">
+      <a class="lightbox" href="{{ $full.RelPermalink }}" aria-label="View larger{{ with $label }} ({{ . }}){{ end }}">
+        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" loading="lazy" decoding="async" alt="ListenUp{{ with $label }} on {{ . }}{{ end }}" />
+      </a>
+      {{- with $label }}<figcaption>{{ . }}</figcaption>{{ end -}}
+    </figure>
+  {{- else -}}
+    {{- warnf "screenshots shortcode: image not found at assets/images/%s" $name -}}
+  {{- end -}}
+{{- end -}}
+</div>

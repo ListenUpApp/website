@@ -93,4 +93,4 @@ Email: dev@calypsan.com
 
 ---
 
-*ListenUp is built on a simple principle: your audiobooks, your server, your data. We believe privacy isn't a feature—it's a right.*
+*ListenUp is built on a simple principle: your audiobooks, your server, your data. We believe privacy isn't a feature. It's a right.*

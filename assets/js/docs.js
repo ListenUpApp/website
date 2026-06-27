@@ -134,6 +134,32 @@
     setTimeout(function () { btn.classList.remove('done'); if (orig) orig.textContent = 'Copy'; }, 1600);
   });
 
+  /* ---- lightbox (click a screenshot to enlarge) ---- */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.lightbox');
+    if (!a) return;
+    e.preventDefault();
+    var img = a.querySelector('img');
+    openLightbox(a.getAttribute('href'), img ? img.getAttribute('alt') : '');
+  });
+  function openLightbox(src, alt) {
+    var ov = document.createElement('div');
+    ov.className = 'lightbox-overlay';
+    var im = document.createElement('img');
+    im.src = src; im.alt = alt || '';
+    ov.appendChild(im);
+    function close() {
+      ov.classList.remove('open');
+      document.removeEventListener('keydown', onKey);
+      setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 180);
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    ov.addEventListener('click', close);
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(ov);
+    requestAnimationFrame(function () { ov.classList.add('open'); });
+  }
+
   /* ---- TOC scrollspy ---- */
   window.addEventListener('DOMContentLoaded', function () {
     var links = Array.prototype.slice.call(document.querySelectorAll('.toc a[href^="#"]'));

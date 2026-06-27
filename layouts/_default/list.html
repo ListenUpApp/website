@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="scrim" onclick="toggleNav()"></div>
+<div class="shell">
+  {{ partial "sidebar.html" . }}
+  <main class="content">
+    <article class="article">
+      {{ partial "breadcrumb.html" . }}
+      <div class="eyebrow">{{ .Title }}</div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Content }}{{ . }}{{ end }}
+      <ul>
+        {{ range .Pages.ByWeight }}
+          <li><a class="tlink" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Description }} — {{ . }}{{ end }}</li>
+        {{ end }}
+      </ul>
+    </article>
+  </main>
+</div>
+{{ end }}

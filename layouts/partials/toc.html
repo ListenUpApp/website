@@ -1,0 +1,11 @@
+{{ with .Fragments.Headings }}
+<aside class="toc">
+  <div class="toc-label">On this page</div>
+  {{ range . }}
+    <a href="#{{ .ID }}">{{ .Title }}</a>
+    {{ range .Headings }}
+      <a class="sub" href="#{{ .ID }}">{{ .Title }}</a>
+    {{ end }}
+  {{ end }}
+</aside>
+{{ end }}

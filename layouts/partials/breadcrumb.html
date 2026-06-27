@@ -1,7 +1,7 @@
-<nav class="breadcrumb">
+<nav class="breadcrumb" aria-label="breadcrumb">
   <a href="{{ "/" | relURL }}">Docs</a>
   {{ range .Ancestors.Reverse }}
     {{ if not .IsHome }}<span class="sep">/</span><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
   {{ end }}
-  <span class="sep">/</span><span>{{ .Title }}</span>
+  <span class="sep">/</span><span aria-current="page">{{ .Title }}</span>
 </nav>

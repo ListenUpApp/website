@@ -9,6 +9,7 @@
 {{ $prev := false }}{{ $next := false }}
 {{ if gt $idx 0 }}{{ $prev = index $order (sub $idx 1) }}{{ end }}
 {{ if and (ge $idx 0) (lt $idx (sub (len $order) 1)) }}{{ $next = index $order (add $idx 1) }}{{ end }}
+{{ if ge $idx 0 }}
 <div class="prevnext">
   {{ with $prev }}
     <a class="pn prev" href="{{ .RelPermalink }}"><span class="dir">← Previous</span><span class="ttl">{{ if .IsHome }}Introduction{{ else }}{{ .Title }}{{ end }}</span></a>
@@ -17,3 +18,4 @@
     <a class="pn next" href="{{ .RelPermalink }}"><span class="dir">Next →</span><span class="ttl">{{ if .IsHome }}Introduction{{ else }}{{ .Title }}{{ end }}</span></a>
   {{ else }}<span></span>{{ end }}
 </div>
+{{ end }}

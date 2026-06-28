@@ -43,8 +43,9 @@
   <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
   {{ end }}
   <script>
-    /* set theme before paint to avoid a flash */
+    /* set theme + js flag before paint to avoid flashes */
     (function () {
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('lu-docs-theme');
         if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';

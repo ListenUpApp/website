@@ -1,0 +1,60 @@
+{{- /* config-builder — renders the Configuration page from data/config.yaml.
+       Static reference table (works with JS off) + a progressively-enhanced builder
+       (assets/js/config-builder.js) shown only when html.js is set. One data source. */ -}}
+{{- $cfg := index hugo.Data (.Get "data" | default "config") -}}
+{{- $icons := dict -}}
+{{- range $cfg.groups }}{{ $icons = merge $icons (dict .icon (partial "icon" .icon | string)) }}{{ end -}}
+
+{{/* builder shell — hidden unless html.js; #cfg-root filled by config-builder.js */}}
+<div class="cfg-shell">
+  <div class="cfg-filter">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="cfg-filter-input" type="text" placeholder="Filter variables — try “scan”, “secret”, “port”…" autocomplete="off" spellcheck="false" />
+    <span class="fcount" id="cfg-fcount"></span>
+  </div>
+  <div class="cfg-builder">
+    <div class="cfg-list" id="cfg-root"></div>
+    <div class="cfg-out">
+      <div class="code">
+        <div class="code-bar">
+          <div class="fmt-tabs">
+            <button type="button" data-fmt="compose" class="on">Compose</button>
+            <button type="button" data-fmt="run">docker run</button>
+            <button type="button" data-fmt="env">.env</button>
+          </div>
+          <span class="grow"></span>
+          <button type="button" class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span class="lbl">Copy</span></button>
+        </div>
+        <pre id="cfg-pre"></pre>
+        <div class="outfoot">
+          <span class="cnt" id="cfg-count"></span>
+          <button type="button" class="reset">reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/* static reference — the no-JS foundation; hidden when html.js */}}
+<div class="config-reference">
+  {{- range $cfg.groups }}
+  <h3>{{ .title }}</h3>
+  {{- with .note }}<p class="cfg-ref-note">{{ . }}</p>{{ end }}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+    <tbody>
+    {{- range .vars }}
+      <tr><td><code>{{ .name }}</code></td><td><code>{{ .default }}</code></td><td>{{ .purpose }}</td></tr>
+    {{- end }}
+    </tbody>
+  </table></div>
+  {{- end }}
+</div>
+
+{{/* data + behaviour */}}
+<script type="application/json" id="cfg-data">{{ $cfg | jsonify | safeJS }}</script>
+<script>window.__cfgIcons={{ $icons | jsonify | safeJS }};</script>
+{{- with resources.Get "js/config-builder.js" }}
+  {{- $js := . | minify | fingerprint -}}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous" defer></script>
+{{- end }}

@@ -1,0 +1,122 @@
+# Source of truth for the Configuration page. Hugo renders this into BOTH the
+# static reference table (works with JS off) and the data fed to the config
+# builder (assets/js/config-builder.js). Edit a variable once, here.
+#
+# Per variable:
+#   name      env var name
+#   default   shown default ("—" style strings allowed; see `generated`)
+#   type      text | path | int | duration | bool | enum | secret
+#   purpose   one-line description (Markdown-light: `code` spans ok in the static table)
+#   options   (enum only) allowed values, first is the default
+#   example   (optional) placeholder shown in the builder's input
+#   generated (secret only) true => offer in-browser generation, "GEN" badge
+#
+# Reuse: set `meta` (image + service/container name) and edit `groups`. Another
+# page can render a second builder with {{< config-builder data="other" >}},
+# which reads data/other.yaml. The output formats (Compose / docker run / .env)
+# are Docker-oriented; for other targets, adjust generate() in config-builder.js.
+
+meta:
+  image: ghcr.io/listenupapp/listenup-server:latest
+  service: listenup          # compose service name and `docker run --name`
+
+groups:
+  - id: core
+    title: Core & runtime
+    icon: sliders
+    vars:
+      - name: LISTENUP_HOME
+        default: "~/ListenUp"
+        type: path
+        example: /data
+        purpose: "Data directory: the SQLite database, secrets.properties, cover art, and the scan spool. Use an absolute path; ~ is read literally, not shell-expanded."
+      - name: PORT
+        default: "8080"
+        type: int
+        example: "8080"
+        purpose: "HTTP listen port. Note the variable is PORT, not LISTENUP_PORT."
+      - name: LISTENUP_SERVER_NAME
+        default: ListenUp
+        type: text
+        example: My Library
+        purpose: "Instance display name, shown on the public invite landing page."
+      - name: LISTENUP_DATA_DIR_LOCK
+        default: "true"
+        type: bool
+        purpose: "Takes an exclusive OS lock on the data directory so two server processes can't share one home and race the scan spool."
+
+  - id: secrets
+    title: Secrets
+    icon: shield
+    note: "Leave these unset and ListenUp generates secure values on first boot, persisting them to secrets.properties. Back up that file."
+    vars:
+      - name: LISTENUP_JWT_SECRET
+        default: generated
+        type: secret
+        generated: true
+        purpose: "HS256 signing secret, at least 32 bytes. An explicit value that's the committed default, or shorter than 32 bytes, fails startup."
+      - name: LISTENUP_REFRESH_PEPPER
+        default: generated
+        type: secret
+        generated: true
+        purpose: "HMAC-SHA-256 pepper for refresh tokens, at least 32 bytes. Rotating it invalidates all stored hashes, forcing every user to re-authenticate."
+
+  - id: registration
+    title: Registration
+    icon: people
+    vars:
+      - name: LISTENUP_REGISTRATION_POLICY
+        default: APPROVAL_QUEUE
+        type: enum
+        options: [APPROVAL_QUEUE, OPEN, CLOSED]
+        purpose: "How new sign-ups are handled."
+
+  - id: scanner
+    title: Scanner & library
+    icon: folder
+    vars:
+      - name: LISTENUP_LIBRARY_PATH
+        default: "(empty)"
+        type: path
+        example: /audiobooks
+        purpose: "Absolute folders used to seed the singleton library on first boot. Delimited by the OS path separator (: on Unix, ; on Windows)."
+      - name: LISTENUP_METADATA_PRECEDENCE
+        default: "(default order)"
+        type: text
+        example: "metadata.json, embedded, sidecar, filename, folder"
+        purpose: "Comma-separated, highest priority first. An invalid token fails startup."
+      - name: LISTENUP_EMBEDDED_COVER_CACHE_SIZE
+        default: "1000"
+        type: int
+        example: "1000"
+        purpose: "Maximum embedded-artwork covers held in the in-memory LRU cache."
+      - name: LISTENUP_SCAN_RESCAN_ON_STARTUP
+        default: "true"
+        type: bool
+        purpose: "Re-walk every library once on startup."
+      - name: LISTENUP_SCAN_PERIODIC_RESCAN_INTERVAL
+        default: "6h"
+        type: duration
+        example: "6h"
+        purpose: "Periodic full-rescan backstop, as a Kotlin Duration (e.g. 30m). 0 or blank disables it; the live file watcher keeps running."
+
+  - id: logging
+    title: Logging
+    icon: waveform
+    note: "For a per-package override, set LISTENUP_LOG_LEVEL_<prefix> (underscores become dots; the longest matching prefix wins), e.g. LISTENUP_LOG_LEVEL_com_calypsan_listenup_server_scanner=DEBUG."
+    vars:
+      - name: LISTENUP_LOG_LEVEL
+        default: INFO
+        type: enum
+        options: [INFO, ERROR, WARN, DEBUG, TRACE]
+        purpose: "Default log level."
+
+  - id: dev
+    title: Seed & development
+    icon: rocket
+    vars:
+      - name: LISTENUP_SEED_PROFILE
+        default: "(empty)"
+        type: text
+        example: demo
+        purpose: "Selects a startup seed profile (demo data). Intended for development; only sort of works right now."

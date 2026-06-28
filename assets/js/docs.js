@@ -35,9 +35,32 @@
     });
   }
   window.luSetPlatform = function (os) {
+    var prev = root.getAttribute('data-platform') || 'ios';
     root.setAttribute('data-platform', os);
     try { localStorage.setItem('lu-docs-platform', os); } catch (e) {}
     syncPlatformButtons();
+    if (prev === os) return;                 // re-tap of the active platform: nothing to do
+
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;                      // CSS idle rules already swapped it; honour the preference
+
+    // Iris the incoming layer in over the outgoing one, per frame on the page.
+    Array.prototype.forEach.call(document.querySelectorAll('.shots .scr'), function (scr) {
+      var to = scr.querySelector('.layer[data-os="' + os + '"]');
+      var from = scr.querySelector('.layer[data-os="' + prev + '"]');
+      if (!to || !from) return;              // single-platform frame: no transition
+      to.classList.remove('lu-enter');
+      void scr.offsetWidth;                  // reflow so the animation re-fires on every toggle
+      from.classList.add('lu-leave');
+      to.classList.add('lu-enter');
+      var clear = function () {
+        to.classList.remove('lu-enter');
+        from.classList.remove('lu-leave');
+        to.removeEventListener('animationend', clear);
+      };
+      to.addEventListener('animationend', clear);
+      setTimeout(clear, 900);               // safety net if animationend is missed
+    });
   };
   document.addEventListener('DOMContentLoaded', syncPlatformButtons);
 

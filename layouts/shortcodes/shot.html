@@ -1,16 +1,27 @@
-{{- /* shot — one screen, framed for both platforms (CSS shows the active one).
+{{- /* shot — one screen, both platform layers stacked inside one frame. The active
+       platform's layer is shown; luSetPlatform (docs.js) irises the incoming one in.
+       Either platform may be omitted — a single-platform frame just displays (no
+       transition is possible with one image), marked with a `solo` class.
        Usage: {{< shot ios="server-select-ios.png" android="server-select-android.png" caption="Auto-discovery" >}}
        Images live in assets/images/ and are resized + WebP-converted by Hugo. */ -}}
 {{- $cap := .Get "caption" -}}
-{{- with .Get "ios" -}}
-  {{- with resources.Get (printf "images/%s" .) -}}
-    {{- $img := .Process "resize x1080 q85 webp" -}}
-    <figure class="shot" data-os="ios"><div class="phone"><div class="scr"><img src="{{ $img.RelPermalink }}" loading="lazy" decoding="async" alt="iOS{{ with $cap }} — {{ . }}{{ end }}" /></div></div>{{ with $cap }}<figcaption class="shot-cap">{{ . }}</figcaption>{{ end }}</figure>
-  {{- else -}}{{- warnf "shot shortcode: image not found at assets/images/%s" . -}}{{- end -}}
-{{- end -}}
-{{- with .Get "android" -}}
-  {{- with resources.Get (printf "images/%s" .) -}}
-    {{- $img := .Process "resize x1080 q85 webp" -}}
-    <figure class="shot" data-os="android"><div class="phone"><div class="scr"><img src="{{ $img.RelPermalink }}" loading="lazy" decoding="async" alt="Android{{ with $cap }} — {{ . }}{{ end }}" /></div></div>{{ with $cap }}<figcaption class="shot-cap">{{ . }}</figcaption>{{ end }}</figure>
-  {{- else -}}{{- warnf "shot shortcode: image not found at assets/images/%s" . -}}{{- end -}}
-{{- end -}}
+{{- $ios := .Get "ios" -}}
+{{- $android := .Get "android" -}}
+{{- $solo := and (or $ios $android) (not (and $ios $android)) -}}
+<figure class="shot">
+  <div class="phone"><div class="scr">
+  {{- with $ios -}}
+    {{- with resources.Get (printf "images/%s" .) -}}
+      {{- $img := .Process "resize x1080 q85 webp" -}}
+      <div class="layer{{ if $solo }} solo{{ end }}" data-os="ios"><img src="{{ $img.RelPermalink }}" loading="lazy" decoding="async" alt="iOS{{ with $cap }} — {{ . }}{{ end }}" /></div>
+    {{- else -}}{{- warnf "shot shortcode: image not found at assets/images/%s" . -}}{{- end -}}
+  {{- end -}}
+  {{- with $android -}}
+    {{- with resources.Get (printf "images/%s" .) -}}
+      {{- $img := .Process "resize x1080 q85 webp" -}}
+      <div class="layer{{ if $solo }} solo{{ end }}" data-os="android"><img src="{{ $img.RelPermalink }}" loading="lazy" decoding="async" alt="Android{{ with $cap }} — {{ . }}{{ end }}" /></div>
+    {{- else -}}{{- warnf "shot shortcode: image not found at assets/images/%s" . -}}{{- end -}}
+  {{- end -}}
+  </div></div>
+  {{- with $cap }}<figcaption class="shot-cap">{{ . }}</figcaption>{{ end -}}
+</figure>

@@ -1,13 +1,19 @@
-{{- /* filetree — a styled folder/file tree.
-       Author with 2 spaces per level. A leading "* " marks the highlighted
-       "book" row. " // note" adds a muted annotation. Trailing "/" = folder;
-       otherwise the icon is chosen from the file extension.
+{{- /* filetree — a nested folder/file tree with guide rails, file-type colours,
+       and tags. General-purpose: works for any tree (audiobook libraries, source
+       layouts, anything).
+         - 2 spaces = one level of nesting.
+         - trailing "/" = folder; otherwise the icon + colour come from the extension.
+         - " @anything" adds a labelled pill and highlights the row. author / series /
+           title / book / role have brand colours; any other tag uses a neutral default
+           (e.g. a source layout: @source, @config, @generated).
+         - " // text" adds a muted hint tag (no row highlight). "* " is an alias for @book.
+         - param legend="a,b,c" appends a swatch legend for those tag names.
 
-       {{< filetree >}}
+       {{< filetree legend="author,series,title" >}}
        Audiobooks/
-         Brandon Sanderson/ // author
-           Stormlight Archive/ // series
-           * The Way of Kings/ // a book
+         Brandon Sanderson/ @author
+           The Stormlight Archive/ @series
+             Book 1 - The Way of Kings/ @title
                01 - Prologue.m4b
                cover.jpg
        {{< /filetree >}} */ -}}
@@ -15,36 +21,48 @@
   "folder" "<path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z\"/>"
   "audio"  "<path d=\"M9 18V6l10-2v12\"/><circle cx=\"6\" cy=\"18\" r=\"2.5\"/><circle cx=\"16\" cy=\"16\" r=\"2.5\"/>"
   "image"  "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"8.5\" cy=\"9.5\" r=\"1.6\"/><path d=\"m21 16-5-5L5 20\"/>"
-  "doc"    "<path d=\"M5 3h9l5 5v13a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0Z\"/><path d=\"M14 3v5h5\"/>"
+  "data"   "<path d=\"M5 3h9l5 5v13H5Z\"/><path d=\"M14 3v5h5\"/>"
 -}}
-<div class="filetree">
+{{- $s := newScratch -}}{{- $s.Set "open" false -}}{{- $s.Set "d" 0 -}}
+<div class="filetree"><div class="ft-tree">
 {{- range (split (trim .Inner "\n") "\n") -}}
-  {{- $raw := . -}}
-  {{- if trim $raw " " -}}
+  {{- if trim . " " -}}
+    {{- $raw := . -}}
     {{- $body := strings.TrimLeft " " $raw -}}
-    {{- $depth := div (sub (len $raw) (len $body)) 2 -}}
-    {{- $book := false -}}
-    {{- if strings.HasPrefix $body "* " }}{{ $book = true }}{{ $body = strings.TrimPrefix "* " $body }}{{ end -}}
-    {{- $note := "" -}}
-    {{- if strings.Contains $body " // " }}{{ $p := split $body " // " }}{{ $body = index $p 0 }}{{ $note = index $p 1 }}{{ end -}}
+    {{- $cur := div (sub (len $raw) (len $body)) 2 -}}
+    {{- $tag := "" -}}
+    {{- if strings.HasPrefix $body "* " }}{{ $tag = "book" }}{{ $body = strings.TrimPrefix "* " $body }}{{ end -}}
+    {{- $hint := "" -}}
+    {{- if strings.Contains $body " // " }}{{ $parts := split $body " // " }}{{ $body = trim (index $parts 0) " " }}{{ $hint = trim (index $parts 1) " " }}{{ end -}}
+    {{- if strings.Contains $body " @" }}{{ $parts := split $body " @" }}{{ $tag = trim (index $parts (sub (len $parts) 1)) " " }}{{ $body = trim (index $parts 0) " " }}{{ end -}}
     {{- $name := trim $body " " -}}
-    {{- $type := "file" -}}
+    {{- $type := "data" -}}{{- $base := $name -}}{{- $ext := "" -}}
     {{- if strings.HasSuffix $name "/" -}}
-      {{- $type = "folder" -}}{{- $name = strings.TrimSuffix "/" $name -}}
+      {{- $type = "folder" -}}
     {{- else -}}
-      {{- $ext := lower (path.Ext $name) -}}
-      {{- if in (slice ".m4b" ".mp3" ".m4a" ".flac" ".opus" ".ogg" ".oga" ".aac" ".wav" ".aiff") $ext }}{{ $type = "audio" }}
-      {{- else if in (slice ".jpg" ".jpeg" ".png" ".webp") $ext }}{{ $type = "image" }}
-      {{- else if in (slice ".json" ".opf" ".nfo" ".txt") $ext }}{{ $type = "doc" }}{{ end -}}
+      {{- $e := lower (path.Ext $name) -}}
+      {{- if in (slice ".m4b" ".mp3" ".m4a" ".flac" ".opus" ".ogg" ".oga" ".aac" ".wav" ".aiff") $e }}{{ $type = "audio" }}
+      {{- else if in (slice ".jpg" ".jpeg" ".png" ".webp" ".gif" ".svg") $e }}{{ $type = "image" }}{{ end -}}
+      {{- if $e }}{{ $base = strings.TrimSuffix $e $name }}{{ $ext = $e }}{{ end -}}
     {{- end -}}
-    {{- $ic := "doc" -}}
-    {{- if eq $type "folder" }}{{ $ic = "folder" }}{{ else if eq $type "audio" }}{{ $ic = "audio" }}{{ else if eq $type "image" }}{{ $ic = "image" }}{{ end -}}
-    <div class="ft-row ft-{{ $type }}{{ if $book }} ft-book{{ end }}" style="padding-left: {{ add 10 (mul $depth 22) }}px">
-      <svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{{ index $icons $ic | safeHTML }}</svg>
-      <span class="ft-name">{{ $name }}</span>
-      {{- with $note }}<span class="ft-note">{{ . }}</span>{{ end -}}
-      {{- if $book }}<span class="ft-badge">book</span>{{ end -}}
-    </div>
+    {{- if not ($s.Get "open") -}}
+      <div class="ft-node">{{- $s.Set "open" true -}}
+    {{- else -}}
+      {{- $prev := $s.Get "d" -}}
+      {{- if gt $cur $prev -}}<div class="ft-children"><div class="ft-node">
+      {{- else if eq $cur $prev -}}</div><div class="ft-node">
+      {{- else -}}{{ range seq (sub $prev $cur) }}</div></div>{{ end }}</div><div class="ft-node">{{- end -}}
+    {{- end -}}
+    {{- $s.Set "d" $cur -}}
+    <div class="ft-row{{ with $tag }} mapped {{ . }}{{ end }}"><span class="ft-ic {{ $type }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{{ index $icons $type | safeHTML }}</svg></span><span class="ft-name">{{ $base }}{{ with $ext }}<span class="ext">{{ . }}</span>{{ end }}</span>{{ with $tag }}<span class="ft-tag {{ . }}">{{ . }}</span>{{ end }}{{ with $hint }}<span class="ft-tag hint">{{ . }}</span>{{ end }}</div>
   {{- end -}}
 {{- end -}}
-</div>
+{{- if $s.Get "open" -}}</div>{{- $f := $s.Get "d" -}}{{- if gt $f 0 }}{{ range seq $f }}</div></div>{{ end }}{{ end -}}{{- end -}}
+</div></div>
+{{- with .Get "legend" -}}
+  <div class="ft-legend">
+  {{- range (split . ",") -}}{{- $t := trim . " " -}}
+    <span class="lg"><span class="sw {{ $t }}"></span><b>{{ $t }}</b></span>
+  {{- end -}}
+  </div>
+{{- end -}}

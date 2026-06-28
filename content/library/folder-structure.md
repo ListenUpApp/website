@@ -20,11 +20,11 @@ So the rule of thumb is **one book per folder**: give each book its own folder. 
 
 ListenUp reads the **bottom three folders** of a book's path as **author → series → title**:
 
-{{< filetree >}}
+{{< filetree legend="author,series,title" >}}
 Audiobooks/
-  Brandon Sanderson/ // author
-    The Stormlight Archive/ // series
-      * Book 1 - The Way of Kings/ // numbered for series order
+  Brandon Sanderson/ @author
+    The Stormlight Archive/ @series
+      Book 1 - The Way of Kings/ @title
         01 - Prologue.m4b
         02 - Chapter 1.m4b
         cover.jpg
@@ -41,13 +41,13 @@ Only those bottom three levels matter, so anything above the author folder is ig
 The series and author folders are optional. Keep just a title folder, or, for a single self-contained file, skip the folder entirely:
 
 {{< filetree >}}
-Patrick Rothfuss/ // author, no series
-  * The Name of the Wind/
-      the-name-of-the-wind.m4b
-* The Martian/ // just a title folder
-    part-1.mp3
-    part-2.mp3
-* The Hobbit.m4b // a single file is its own book
+Patrick Rothfuss/ @author // no series
+  The Name of the Wind/ @title
+    the-name-of-the-wind.m4b
+The Martian/ @title // just a title folder
+  part-1.mp3
+  part-2.mp3
+The Hobbit.m4b // a single file is its own book
 {{< /filetree >}}
 
 ## Multi-file and multi-disc books
@@ -58,12 +58,12 @@ Disc folders are folded into the same book automatically:
 
 {{< filetree >}}
 * The Eye of the World/ // one book, two discs
-    CD1/
-      01.mp3
-      02.mp3
-    CD2/
-      01.mp3
-    cover.jpg
+  CD1/
+    01.mp3
+    02.mp3
+  CD2/
+    01.mp3
+  cover.jpg
 {{< /filetree >}}
 
 Only `CD`, `Disc`, or `Disk` followed by a number are merged.
@@ -86,10 +86,10 @@ You don't need any of these (tags and sidecars work fine), but if you encode det
 So a fully-annotated folder is read cleanly:
 
 {{< filetree >}}
-Robert Jordan/ // author
-  The Wheel of Time/ // series
-    * Book 1 - The Eye of the World (1990) {Kate Reading} [B002V1A0WE]/ // every hint at once
-        eye-of-the-world.m4b
+Robert Jordan/ @author
+  The Wheel of Time/ @series
+    Book 1 - The Eye of the World (1990) {Kate Reading} [B002V1A0WE]/ @title // every hint at once
+      eye-of-the-world.m4b
 {{< /filetree >}}
 
 > [!NOTE]

@@ -5,3 +5,6 @@
 
 # OS / editor
 .DS_Store
+
+# Visual-companion brainstorm scratch (superpowers)
+.superpowers/

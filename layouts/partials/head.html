@@ -21,12 +21,15 @@
   <meta name="twitter:image" content="{{ $ogimg }}" />
 
   <link rel="icon" href="{{ "images/logo-mark.png" | relURL }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  {{ with resources.Get "css/listenup-docs.css" }}
-    {{ $css := . | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous" />
+  {{- /* Fonts are self-hosted (no third-party render-blocking request). Preload the two
+         render-critical faces — body (Hanken 400) + display (Space Grotesk 700) — then ship
+         the @font-face rules concatenated into the single CSS bundle. */ -}}
+  <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/hanken-grotesk-400-latin.woff2" | relURL }}" crossorigin="anonymous" />
+  <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/space-grotesk-700-latin.woff2" | relURL }}" crossorigin="anonymous" />
+  {{ $fonts := resources.Get "css/fonts.css" }}
+  {{ $main := resources.Get "css/listenup-docs.css" }}
+  {{ with (slice $fonts $main | resources.Concat "css/bundle.css" | minify | fingerprint) }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
   {{ end }}
   {{ if .IsHome }}
   {{ $ld := dict

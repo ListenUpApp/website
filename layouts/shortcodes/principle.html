@@ -1,0 +1,16 @@
+{{- /* principle — one value card inside {{< principles >}}. Body is Markdown.
+       Usage: {{< principle accent="coral" icon="quill" title="Offline-First" ethos="One-line ethos." >}}…{{< /principle >}}
+       accent ∈ coral | amber | green.   icon = a name from partials/icon.html. */ -}}
+{{- $accent := .Get "accent" | default "coral" -}}
+<div class="principle c-{{ $accent }}">
+  <div class="pleft">
+    <span class="pnum"></span>
+    {{- with .Get "icon" }}<span class="picon">{{ partial "icon" . }}</span>{{ end -}}
+  </div>
+  <div class="pbody">
+    {{- with .Get "title" }}<h3>{{ . }}</h3>{{ end -}}
+    {{- with .Get "ethos" }}<p class="ethos">{{ . }}</p>{{ end -}}
+    {{ .Page.RenderString (dict "display" "block") .Inner }}
+  </div>
+  <span class="pbg"></span>
+</div>

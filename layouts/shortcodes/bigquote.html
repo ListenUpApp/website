@@ -1,0 +1,3 @@
+{{- /* bigquote — a large pull quote. Body is Markdown.
+       Usage: {{< bigquote >}}A line worth emphasising.{{< /bigquote >}} */ -}}
+<p class="bigquote">{{ .Page.RenderString (dict "display" "inline") .Inner }}</p>

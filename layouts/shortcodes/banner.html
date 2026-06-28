@@ -1,0 +1,6 @@
+{{- /* banner — a highlighted closing call-out. Body is Markdown.
+       Usage: {{< banner quote="The headline line." >}}Supporting sentence.{{< /banner >}} */ -}}
+<div class="banner">
+  {{- with .Get "quote" }}<p class="bq">{{ . }}</p>{{ end -}}
+  {{- with .Inner }}<p>{{ $.Page.RenderString (dict "display" "inline") . }}</p>{{ end -}}
+</div>

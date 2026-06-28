@@ -1,0 +1,10 @@
+{{- /* feature — one card inside {{< features >}}. Body is Markdown.
+       Usage: {{< feature icon="phone" title="Native clients" >}}…{{< /feature >}}
+       Add wide="true" to make a card span the full row.   icon = a name from partials/icon.html. */ -}}
+<div class="feature{{ if eq (.Get "wide") "true" }} feature-wide{{ end }}">
+  {{- with .Get "icon" }}<span class="fi">{{ partial "icon" . }}</span>{{ end -}}
+  <div>
+    {{- with .Get "title" }}<h4>{{ . }}</h4>{{ end -}}
+    {{ .Page.RenderString (dict "display" "block") .Inner }}
+  </div>
+</div>

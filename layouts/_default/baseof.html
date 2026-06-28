@@ -8,7 +8,7 @@
   {{ partial "footer.html" . }}
   {{ with resources.Get "js/docs.js" }}
     {{ $js := . | minify | fingerprint }}
-    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous" defer></script>
   {{ end }}
 </body>
 </html>

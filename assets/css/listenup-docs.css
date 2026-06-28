@@ -883,3 +883,20 @@ a { color: inherit; text-decoration: none; }
   .crow .cell, .crow.head .hcell { border-left: none; }
   .bigquote { font-size: 22px; }
 }
+
+/* ============================================================
+   THEME TRANSITION  (View Transitions API — diagonal wipe)
+   The new theme sweeps in over the old along a slanted edge. docs.js guards
+   browser support + prefers-reduced-motion (otherwise an instant swap).
+   To use a CIRCULAR reveal from the toggle instead, replace the keyframe body
+   with:  from { clip-path: circle(0 at var(--vt-x) var(--vt-y)); }
+          to   { clip-path: circle(150% at var(--vt-x) var(--vt-y)); }
+   ============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) { mix-blend-mode: normal; }
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) { animation: lu-theme-wipe 0.5s ease both; }
+@keyframes lu-theme-wipe {
+  from { clip-path: polygon(0 0, 0 0, -60% 100%, 0 100%); }
+  to   { clip-path: polygon(0 0, 160% 0, 100% 100%, 0 100%); }
+}

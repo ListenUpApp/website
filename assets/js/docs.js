@@ -9,9 +9,22 @@
     else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) root.setAttribute('data-theme', 'dark');
   } catch (e) {}
   window.toggleTheme = function () {
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('lu-docs-theme', next); } catch (e) {}
+    var apply = function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('lu-docs-theme', next); } catch (e) {}
+    };
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!document.startViewTransition || reduce) { apply(); return; }
+    // Record the toggle's centre so the wipe can originate there (and so swapping
+    // to a circular reveal needs only the CSS change documented in the stylesheet).
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      var r = btn.getBoundingClientRect();
+      root.style.setProperty('--vt-x', (r.left + r.width / 2) + 'px');
+      root.style.setProperty('--vt-y', (r.top + r.height / 2) + 'px');
+    }
+    document.startViewTransition(apply);
   };
 
   /* ---- platform toggle (iOS/Android screenshots) ---- */

@@ -766,10 +766,26 @@ a { color: inherit; text-decoration: none; }
 .seg button.on { background: var(--surface); color: var(--coral); box-shadow: var(--shadow-sm); }
 
 .shots { display: flex; flex-wrap: wrap; gap: 22px; margin: 8px 0 26px; }
-.shots [data-os] { display: none; }
-[data-platform="ios"]     .shots [data-os="ios"]     { display: flex; }
-[data-platform="android"] .shots [data-os="android"] { display: flex; }
-.shot { flex-direction: column; align-items: center; margin: 0; }
+.shot { display: flex; flex-direction: column; align-items: center; margin: 0; }
+
+/* Both platform layers are always in the DOM, stacked inside .scr. The active
+   platform's layer is the visible one; luSetPlatform irises the incoming one in.
+   See THEME TRANSITION block for the sibling whole-page wipe. */
+.shots .layer { position: absolute; inset: 0; opacity: 0; }
+.shots .layer.solo { opacity: 1; z-index: 2; }                 /* single-platform frame: always shown */
+[data-platform="ios"]     .shots .layer[data-os="ios"]     { opacity: 1; z-index: 2; }
+[data-platform="android"] .shots .layer[data-os="android"] { opacity: 1; z-index: 2; }
+
+/* During a toggle, docs.js adds .lu-leave (stays beneath) + .lu-enter (irises on top). */
+.shots .layer.lu-leave { opacity: 1; z-index: 1; }
+.shots .layer.lu-enter { opacity: 1; z-index: 3; animation: lu-shot-iris var(--lu-shot-dur, 0.5s) cubic-bezier(0.4, 0, 0.2, 1) both; }
+@keyframes lu-shot-iris {
+  from { clip-path: circle(0%   at 50% 0%); }
+  to   { clip-path: circle(150% at 50% 0%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shots .layer.lu-enter { animation: none; }                  /* instant swap, like the theme toggle */
+}
 .phone {
   position: relative; width: 226px; flex: 0 0 auto; padding: 7px; border-radius: 32px;
   background: linear-gradient(150deg, #2c2824 0%, #15110e 100%);

@@ -23,11 +23,11 @@ ListenUp's server is a small native binary, so it's happy on modest hardware.
 
 ## Install with Docker
 
-ListenUp ships as a single image: `ghcr.io/listenupapp/listenup-server`. It needs one persistent volume for its own data (the directory pointed to by `LISTENUP_HOME`) and a mount for your audiobooks.
+ListenUp ships as a single image: `ghcr.io/listenupapp/listenup-server`. It needs one persistent volume for its own data (the directory pointed to by `LISTENUP_HOME`) and a mount for your audiobooks. Run it with **host networking** so the apps discover it automatically on your LAN — see [Networking & discovery](#networking) for why, and for the reverse-proxy alternative.
 
 ```bash {file="terminal"}
 docker run -d --name listenup \
-    -p 8080:8080 \
+    --network host \
     -v listenup-data:/data \
     -v /mnt/media/audiobooks:/audiobooks:ro \
     -e LISTENUP_HOME=/data \
@@ -43,8 +43,7 @@ services:
   listenup:
     image: ghcr.io/listenupapp/listenup-server:latest
     container_name: listenup
-    ports:
-      - "8080:8080"
+    network_mode: host
     environment:
       LISTENUP_HOME: /data
       LISTENUP_LIBRARY_PATH: /audiobooks
@@ -62,6 +61,24 @@ volumes:
 
 `LISTENUP_LIBRARY_PATH` is optional: leave it unset to start with an empty library and add your folders later from the app. Multiple folders are separated by `:` (for example `-e LISTENUP_LIBRARY_PATH=/audiobooks:/podcasts`). See the [Configuration reference](/server/configuration/) for every setting.
 
+### Networking & discovery {#networking}
+
+ListenUp announces itself on your LAN over mDNS, so the apps find it with no setup. That announcement only reaches your network with **host networking** (`--network host` / `network_mode: host`) — which is why the recipes above use it. On Docker's default bridge network the announcement stays trapped inside the container and discovery silently fails. Host networking is Linux-host only and shares the host's network stack, so the server binds the host's `:8080` directly (no port mapping).
+
+Prefer to keep the container isolated, run on Docker Desktop (macOS/Windows), or put ListenUp behind a reverse proxy for internet access? Use **bridge networking** instead — publish the port and skip auto-discovery:
+
+```bash {file="terminal"}
+docker run -d --name listenup \
+    -p 8080:8080 \
+    -v listenup-data:/data \
+    -v /mnt/media/audiobooks:/audiobooks:ro \
+    -e LISTENUP_HOME=/data \
+    --restart unless-stopped \
+    ghcr.io/listenupapp/listenup-server:latest
+```
+
+On bridge networking the apps won't discover the server automatically — enter its address by hand instead (for example `http://your-host:8080`). For internet access with HTTPS, see [Reverse proxy & HTTPS](/server/reverse-proxy/).
+
 ### Verify it's running
 
 Once the container is up, check the health endpoint. A `200 OK` with `{"status":"ok"}` means the server is ready.
@@ -78,7 +95,7 @@ ListenUp has no web interface. You set the server up **from the app**. Install L
 {{< steps >}}
 
 {{< step "Install the app and connect" >}}
-Get ListenUp for [iOS](/apps/ios/) or [Android](/apps/android/). On the same network it discovers your server automatically; otherwise enter its address (for example `http://your-host:8080`).
+Get ListenUp for [iOS](/apps/ios/) or [Android](/apps/android/). On the same LAN it discovers your server automatically; if you used bridge networking or you're on a different network, enter its address instead (for example `http://your-host:8080`).
 {{< /step >}}
 
 {{< step "Create the owner account" >}}

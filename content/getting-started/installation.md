@@ -61,6 +61,17 @@ volumes:
 
 `LISTENUP_LIBRARY_PATH` is optional: leave it unset to start with an empty library and add your folders later from the app. Multiple folders are separated by `:` (for example `-e LISTENUP_LIBRARY_PATH=/audiobooks:/podcasts`). See the [Configuration reference](/server/configuration/) for every setting.
 
+### Data directory permissions {#data-directory-permissions}
+
+The server runs as a **non-root user (uid 65532)** and writes its database, server secret, and cached cover art under `/data`. How you mount `/data` decides whether that just works:
+
+- **Named volume** (the examples above — `listenup-data:/data`) — **just works.** A fresh volume inherits the right ownership automatically. This is the recommended setup.
+- **Bind mount** (`-v /your/host/path:/data`) — your host folder is owned by *your* user, which uid 65532 can't write, so the server stops at startup with a data-directory permission error. Fix it either way:
+  - **Run as your host user** — add `--user $(id -u):$(id -g)` (Compose: `user: "1000:1000"`). Your folder is owned by you, so this is usually cleanest. **Or**
+  - **Give the container's user ownership** — `chown -R 65532:65532 /your/host/path`.
+
+If startup fails with a message about not being able to write its data directory, this is why.
+
 ### Networking & discovery {#networking}
 
 ListenUp announces itself on your LAN over mDNS, so the apps find it with no setup. That announcement only reaches your network with **host networking** (`--network host` / `network_mode: host`) — which is why the recipes above use it. On Docker's default bridge network the announcement stays trapped inside the container and discovery silently fails. Host networking is Linux-host only and shares the host's network stack, so the server binds the host's `:8080` directly (no port mapping).

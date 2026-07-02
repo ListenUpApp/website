@@ -88,7 +88,7 @@ docker run -d --name listenup \
     ghcr.io/listenupapp/listenup-server:latest
 ```
 
-On bridge networking the apps won't discover the server automatically — enter its address by hand instead (for example `http://your-host:8080`). For internet access with HTTPS, see [Reverse proxy & HTTPS](/server/reverse-proxy/).
+On bridge networking the apps won't discover the server automatically — enter its address by hand instead (for example `http://your-host:8080`). ListenUp is designed for private networks — for remote access, prefer a VPN like Tailscale; a public [reverse proxy](/server/reverse-proxy/) is the at-your-own-risk alternative.
 
 ### Verify it's running
 
@@ -131,6 +131,6 @@ For anything missing a cover or author, fetch details by title, author, or ASIN:
 With the server running and the app connected, the Server Setup guides cover the rest:
 
 - **[Configuration](/server/configuration/)**: every environment variable.
-- **[Reverse proxy & HTTPS](/server/reverse-proxy/)**: reach ListenUp across the internet, with HTTPS.
+- **[Reverse proxy & HTTPS](/server/reverse-proxy/)**: remote-access options — VPN first, proxy at your own risk.
 - **[Updating](/server/updating/)**: pull a new image and restart.
 - **[Backups](/server/backups/)**: snapshots, restore, and migrating from Audiobookshelf.

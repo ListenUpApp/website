@@ -1,16 +1,16 @@
 +++
 title = "Reverse proxy & HTTPS"
 weight = 20
-description = "Reach ListenUp over the internet with HTTPS: Caddy, Nginx, and Traefik."
+description = "ListenUp is built for private networks. If you must reach it from outside, prefer a VPN — or proxy at your own risk."
 [params]
 eyebrow = "Server Setup"
-lede = "To reach ListenUp from outside your network, and to serve it over HTTPS, put it behind a reverse proxy."
+lede = "ListenUp belongs on your private network. For access from outside, reach for a VPN first — a reverse proxy is the at-your-own-risk alternative."
 +++
 
 The server speaks plain HTTP on its `PORT` (default `8080`). A reverse proxy sits in front, terminates TLS, and forwards requests to it. ListenUp keeps connections open for **WebSocket** (live RPC streaming) and **Server-Sent Events** (the cross-device sync feed), so the one thing every proxy config must get right is **letting those streams through without buffering or premature timeouts**.
 
-> [!NOTE]
-> A proxy is only needed for access across the public internet. On your home network (or over a VPN like Tailscale), the apps connect straight to `http://your-host:8080`, no proxy or certificate required.
+> [!WARNING]
+> **ListenUp is designed for private networks.** The server is hardened for a household of trusted users, not for hostile internet traffic. Keep it on your LAN, or reach it from outside over a VPN like Tailscale or WireGuard — the apps then connect straight to `http://your-host:8080`, no proxy or certificate required. Exposing the server directly to the public internet is unsupported: if you do it anyway, it's at your own risk — keep the server updated and prefer a proxy that fails closed.
 
 ## Caddy
 

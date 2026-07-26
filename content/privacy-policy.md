@@ -6,9 +6,9 @@ layout = "standalone"
 
 **Effective Date:** December 28, 2025
 
-**Last Updated:** December 28, 2025
+**Last Updated:** July 25, 2026
 
-Calypsan Inc. ("we," "our," or "us") provides ListenUp, a self-hosted audiobook server and client application. This Privacy Policy explains how we handle information in connection with the ListenUp mobile application available on Google Play.
+Calypsan Inc. ("we," "our," or "us") provides ListenUp, a self-hosted audiobook server and client application. This Privacy Policy explains how we handle information in connection with the ListenUp mobile applications for Android and iOS, however they are distributed.
 
 ## The Simple Truth
 

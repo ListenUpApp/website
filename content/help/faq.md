@@ -27,6 +27,10 @@ The common ones — M4B, MP3, M4A, AAC/MP4, FLAC, Ogg/Opus — plus a long tail 
 
 Yes — open **Administration → Invites** and share the link. Opening it on a phone lands the person directly in the app's join flow. Anyone signing up another way follows your [registration policy](/server/configuration/), an approval queue by default.
 
+## I forgot my password — where's the reset email?
+
+There isn't one, by design: a self-hosted server has no mail service, and it doesn't need one. Tap **Forgot password?** on the sign-in screen — your server admin approves the request and gives you a short code directly, by phone or in person. If you *are* the admin, there's a server-side escape hatch instead. See [Password Reset](/admin/password-reset/).
+
 ## The app doesn't find my server — what now?
 
 Auto-discovery needs **host networking** (mDNS). On bridge networking, or across networks, add the server manually by URL instead. See [Networking & discovery](/getting-started/installation/#networking).

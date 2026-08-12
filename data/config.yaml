@@ -100,6 +100,16 @@ groups:
         example: "6h"
         purpose: "Periodic full-rescan backstop, as a Kotlin Duration (e.g. 30m). 0 or blank disables it; the live file watcher keeps running."
 
+  - id: recovery
+    title: Account recovery
+    icon: key
+    note: "The escape hatch for a locked-out server owner. Everyone else resets through admin approval in the app — see the Password Reset guide."
+    vars:
+      - name: LISTENUP_ROOT_RESET
+        default: "false"
+        type: bool
+        purpose: "Arms the root-password escape hatch for 15 minutes after boot and prints a one-time token to the server log. Set it, restart, reset from the sign-in screen — then remove it and restart again."
+
   - id: logging
     title: Logging
     icon: waveform

@@ -533,6 +533,7 @@ a { color: inherit; text-decoration: none; }
   .plat {
     display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 16px;
     background: var(--surface); border: 1px solid var(--line); transition: border-color .15s, box-shadow .15s;
+    color: inherit; text-decoration: none;
   }
   .plat:hover { border-color: var(--hairline); box-shadow: var(--shadow-card); }
   .plat .pic { width: 48px; height: 48px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }

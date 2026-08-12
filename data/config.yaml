@@ -71,6 +71,25 @@ groups:
         options: [APPROVAL_QUEUE, OPEN, CLOSED]
         purpose: "How new sign-ups are handled."
 
+  - id: push
+    title: Push notifications
+    icon: phone
+    note: "Push is on by default and routes through the ListenUp relay, which stores and logs nothing about the notifications it forwards. Payloads carry only opaque IDs that resolve to real content on-device."
+    vars:
+      - name: LISTENUP_PUSH_ENABLED
+        default: "true"
+        type: bool
+        purpose: "Deploy-time master switch for push. Set false to turn push off for the whole instance: the server registers no device tokens and sends nothing, overriding the runtime admin toggle."
+      - name: LISTENUP_PUSH_RELAY_URL
+        default: "https://push.listenup.audio"
+        type: text
+        example: "https://push.example.com"
+        purpose: "Which relay delivers notifications to FCM and APNs. Point this at your own relay to keep delivery entirely in-house."
+      - name: LISTENUP_PUSH_RELAY_TOKEN
+        default: "(empty)"
+        type: text
+        purpose: "Optional shared secret the relay validates before sending. Never logged. Leave unset unless your relay requires it."
+
   - id: scanner
     title: Scanner & library
     icon: folder

@@ -9,7 +9,7 @@ lede = "Get the ListenUp beta on your iPhone or iPad, connect to your server, an
 
 ## Get the beta
 
-ListenUp for iOS ships through **TestFlight** during the beta. Public invite links are being set up — check the [GitHub Releases page](https://github.com/ListenUpApp/ListenUp/releases) for the current one.
+ListenUp for iOS ships through **TestFlight** during the beta. [Join the beta on TestFlight](https://testflight.apple.com/join/5DJ6GZdt) — open the link on your iPhone or iPad and TestFlight walks you through installing the app.
 
 > [!NOTE]
 > Beta builds update through TestFlight, not the App Store. You'll get new versions there until ListenUp is ready for a public store release.

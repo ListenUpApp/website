@@ -132,17 +132,18 @@
   <section class="helpstrip">
     <div class="ht">
       <h3>Can't find what you need?</h3>
-      <p>Search the docs, browse the community forum, or open an issue on GitHub. We're happy to help.</p>
+      <p>Search the docs, or <a href="{{ .Site.Params.githubRepo }}/issues">open an issue on GitHub</a>. We're happy to help.</p>
     </div>
     <div class="hbtns">
       <button type="button" class="hbtn solid" onclick="openSearch()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         Search docs
       </button>
-      <a class="hbtn ghost" href="{{ .Site.Params.githubRepo }}">
+      {{- /* Community button parked until there's a Discord to point it at:
+      <a class="hbtn ghost" href="…discord invite…">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
         Community
-      </a>
+      </a> */ -}}
     </div>
   </section>
 </main>

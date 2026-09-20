@@ -9,6 +9,9 @@ lede = "Play a book with one tap. ListenUp downloads it in the background so it'
 
 Playing a book is as simple as tapping **Play**. Behind the scenes, ListenUp downloads and saves the file to your device, so the next time you open that book it starts instantly, and plays even with no connection.
 
+> [!NOTE]
+> This page describes the **phone apps**. The [web client](/apps/web/) streams instead — a browser cannot hold your library on the device, so there are no downloads to manage there.
+
 ## Downloading for offline
 
 Next to each book's Play button is a **download** control that shows the book's download status. Once the book is fully downloaded, it turns into a **delete** button.

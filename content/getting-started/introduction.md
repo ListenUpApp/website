@@ -72,7 +72,7 @@ Both projects meet the same needs from a different set of philosophies. We don't
   </div>
   <div class="crow">
     <div class="dim">Architecture</div>
-    <div class="cell lu">Thin Kotlin sync layer; most work on-device. No web UI.</div>
+    <div class="cell lu">Thin Kotlin sync layer; most work on-device, plus a web client the server hosts.</div>
     <div class="cell">Does more centrally, which powers its excellent web interface.</div>
   </div>
   <div class="crow">
@@ -92,7 +92,7 @@ Both projects meet the same needs from a different set of philosophies. We don't
   </div>
 </div>
 
-<p class="compare-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>If you want podcasts, a web interface, or maximum configurability, Audiobookshelf is the better choice, and that's okay.</p>
+<p class="compare-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>If you want podcasts or maximum configurability, Audiobookshelf is the better choice, and that's okay.</p>
 
 ## Where We're Going
 

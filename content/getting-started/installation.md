@@ -1,14 +1,14 @@
 +++
 title = "Installation"
 weight = 10
-description = "Run the ListenUp server with Docker, then finish setup from the app."
+description = "Run the ListenUp server with Docker, then finish setup in your browser or the app."
 [params]
 eyebrow = "Getting Started"
-lede = "Stand up your own ListenUp server with Docker: one container, one data volume, and your audiobooks. Then finish setup from the app."
+lede = "Stand up your own ListenUp server with Docker: one container, one data volume, and your audiobooks. Then finish setup in your browser or the app."
 +++
 
 > [!NOTE]
-> ListenUp is **server software you host yourself**. There's no cloud account and nothing to sign up for. You run the server, then connect the apps to it. Your files and listening history never leave your machine.
+> ListenUp is **server software you host yourself**. There's no cloud account and nothing to sign up for. You run the server, then reach it from a browser or connect the apps to it. Your files and listening history never leave your machine.
 
 ## System requirements
 
@@ -101,12 +101,14 @@ curl http://localhost:8080/healthz
 
 ## First-run setup {#first-run}
 
-ListenUp has no web interface. You set the server up **from the app**. Install ListenUp on your phone, point it at your server, and it walks you through creating the owner account.
+Set the server up **from a browser** — open its address and the [web client](/apps/web/) is right there, no install needed — or **from the phone app**, whichever suits. Either one walks you through creating the owner account, and everything below works the same in both.
 
 {{< steps >}}
 
-{{< step "Install the app and connect" >}}
-Get ListenUp for [iOS](/apps/ios/) or [Android](/apps/android/). On the same LAN it discovers your server automatically; if you used bridge networking or you're on a different network, enter its address instead (for example `http://your-host:8080`).
+{{< step "Open the server, or connect the app" >}}
+**In a browser:** go to your server's address (for example `http://your-host:8080`). The web client is served there by the server itself, so there is nothing to install and no server to choose.
+
+**In the app:** get ListenUp for [iOS](/apps/ios/) or [Android](/apps/android/). On the same LAN it discovers your server automatically; if you used bridge networking or you're on a different network, enter its address instead.
 {{< /step >}}
 
 {{< step "Create the owner account" >}}

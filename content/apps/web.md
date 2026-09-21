@@ -7,9 +7,24 @@ eyebrow = "Apps"
 lede = "Your server hosts the web client. Open its address in a browser and you are already there."
 +++
 
+## It needs HTTPS {#https}
+
+> [!IMPORTANT]
+> **The web client only runs on a secure origin: HTTPS, or `localhost`.** Over plain `http://your-host:8080` it loads and then stops with *"This page is not a secure context."*
+>
+> This is a browser rule, not a ListenUp setting. The client keeps your library in the browser's origin-private file system (OPFS), which needs `SharedArrayBuffer`, which browsers expose only on a trustworthy origin. There is no flag that turns it on.
+
+That matters because ListenUp's recommended setup — plain HTTP on your LAN — is **not** a secure origin. The apps are unaffected and keep working exactly as before; it is only the browser client that needs this.
+
+Three ways to get a secure origin:
+
+- **A reverse proxy with TLS** — Caddy provisions certificates on its own and needs about three lines. See [Reverse proxy & HTTPS](/server/reverse-proxy/).
+- **Tailscale** — `tailscale serve` puts an HTTPS certificate in front of your server with no public exposure and no DNS to configure. Often the least work if you already use it to reach your server away from home.
+- **`localhost`** — if you browse from the machine running the server, `http://localhost:8080` is a secure origin by definition. Handy for a quick look; not a way to use it from the sofa.
+
 ## There is nothing to install
 
-The web client ships **inside the server**. If you are running ListenUp, you already have it: open your server's address in a browser — the same one you point the apps at, for example `http://your-host:8080` — and the client is served at `/`.
+Given a secure origin, the web client ships **inside the server**. If you are running ListenUp, you already have it: open your server's address in a browser and the client is served at `/`.
 
 No app store, no sideloading, no separate download. Updating the server updates the web client with it.
 

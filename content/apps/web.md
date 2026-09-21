@@ -7,16 +7,24 @@ eyebrow = "Apps"
 lede = "Your server hosts the web client. Open its address in a browser and you are already there."
 +++
 
-## It needs HTTPS {#https}
+## HTTPS is better, not required {#https}
 
-> [!IMPORTANT]
-> **The web client only runs on a secure origin: HTTPS, or `localhost`.** Over plain `http://your-host:8080` it loads and then stops with *"This page is not a secure context."*
->
-> This is a browser rule, not a ListenUp setting. The client keeps your library in the browser's origin-private file system (OPFS), which needs `SharedArrayBuffer`, which browsers expose only on a trustworthy origin. There is no flag that turns it on.
+The web client works either way. What changes is whether it can **keep** your library on the device.
 
-That matters because ListenUp's recommended setup — plain HTTP on your LAN — is **not** a secure origin. The apps are unaffected and keep working exactly as before; it is only the browser client that needs this.
+| | Over HTTPS (or `localhost`) | Over plain `http://` |
+|---|---|---|
+| Every feature | ✅ | ✅ |
+| Library kept between visits | ✅ | ❌ reloads from the server each time |
+| Library readable while the server is down | ✅ | ❌ |
 
-Three ways to get a secure origin:
+On a plain-HTTP server the client tells you so, at the top of the page, and carries on.
+
+> [!NOTE]
+> **Why.** The client keeps your library in the browser's origin-private file system, which needs `SharedArrayBuffer`, which browsers expose only on a trustworthy origin. That is a browser rule with no flag to turn it on — so without HTTPS the library lives in memory instead, and memory does not survive a reload.
+
+ListenUp's recommended setup — plain HTTP on your LAN — is not a secure origin, so that is the mode most people will meet first. It is a real degradation, not a broken app, and the apps are unaffected either way.
+
+If you want the persistent version, three ways to a secure origin:
 
 - **A reverse proxy with TLS** — Caddy provisions certificates on its own and needs about three lines. See [Reverse proxy & HTTPS](/server/reverse-proxy/).
 - **Tailscale** — `tailscale serve` puts an HTTPS certificate in front of your server with no public exposure and no DNS to configure. Often the least work if you already use it to reach your server away from home.
@@ -24,7 +32,7 @@ Three ways to get a secure origin:
 
 ## There is nothing to install
 
-Given a secure origin, the web client ships **inside the server**. If you are running ListenUp, you already have it: open your server's address in a browser and the client is served at `/`.
+The web client ships **inside the server**. If you are running ListenUp, you already have it: open your server's address in a browser and the client is served at `/`.
 
 No app store, no sideloading, no separate download. Updating the server updates the web client with it.
 

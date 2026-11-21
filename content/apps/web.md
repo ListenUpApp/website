@@ -59,7 +59,7 @@ Two real limits, worth knowing before you rely on it:
 
 Everything else is the same, including a couple of things worth calling out:
 
-- **Formats a browser cannot decode play anyway.** The server transcodes them on the fly, so an xHE-AAC book that a browser would refuse still plays. See [Transcoding](/server/configuration/).
+- **Formats a browser cannot decode play anyway.** The server transcodes them on the fly, so an xHE-AAC book that a browser would refuse still plays. See [Transcoding](/server/transcoding/).
 - **Your position follows you.** Start a book in the browser, pick it up on your phone mid-sentence, and back again.
 
 ## Browser support

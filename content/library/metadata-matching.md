@@ -1,60 +1,120 @@
 +++
 title = "Metadata matching"
 weight = 30
-description = "Enrich your books from Audible, or edit metadata by hand: covers, series, narrators, and more."
+description = "Match a book against Audible and Hardcover, review every change before it lands, and undo it afterwards."
 [params]
 eyebrow = "Library"
-lede = "ListenUp builds each book from your own files. When you want richer or cleaner details, you can match against Audible or edit anything by hand, right in the app."
+lede = "ListenUp builds each book from your own files. When you want richer or cleaner details, match it against the online catalogues or edit anything by hand."
 +++
 
-Out of the box, ListenUp derives a book's details from your files: embedded tags, sidecars, and folder names (see [Folder structure](/library/folder-structure/)). Metadata matching adds the sources you reach for when you want more: **Audible** for full details, and hand-editing for everything else.
+Out of the box, ListenUp derives a book's details from your files: embedded tags, sidecars, and folder names (see [Folder structure](/library/folder-structure/)). Matching adds what the files don't have.
 
-## Matching against Audible
+## Matching a book
 
-Matching is something **you start**. ListenUp never reaches out to Audible on its own during a scan. When you want to enrich a book, open it and start a metadata match:
+Matching is something **you start**, one book at a time. ListenUp never matches books on its own during a scan.
 
-1. **Search.** ListenUp queries Audible with the book's title and author (or its ASIN). Edit the search however you like, and pick the Audible region if your edition is region-specific.
-2. **Pick the right edition** from the results.
-3. **Choose what to apply.** A preview lets you toggle each field on or off (title, subtitle, description, publisher, release date, language, cover, authors, narrators, series, genres, moods, and tags), so a match never clobbers details you'd rather keep.
-4. **Apply.** Your choices are saved and sync to every device.
+Open the book, then **⋯ → Match details…**
 
-iTunes is also checked for **high-resolution cover art**, so you'll often get a sharper cover option than Audible alone.
+{{< steps >}}
+
+{{< step "Find" >}}
+One search asks every catalogue at once: **Audible** and **Hardcover** for the book itself, and **iTunes** for extra cover art. ListenUp starts from what it already knows (an ASIN or ISBN if the book has one, otherwise the title and author) and you can change the search.
+
+Results are ranked against your copy, including its length, and labelled **Best match**, **Strong match** or **Maybe**. If one catalogue doesn't answer, you still get the others' results and a note saying which was missing.
+{{< /step >}}
+
+{{< step "Review" >}}
+Pick an edition and ListenUp lays out what would change, in groups:
+
+- **Changes**: fields the match would replace.
+- **Fills a gap**: fields you don't have yet.
+- **Already the same**: nothing to do.
+- **You edited this**: fields someone changed by hand. These are kept unless you tick them.
+- **Cover**, **Genres & moods** and **Chapter names**.
+
+Tick or untick anything. The fields on offer are title, subtitle, description, publisher, release date, language, authors, narrators and series. Chapter names are offered only when the edition has the same number of chapters as your copy.
+
+In a hurry? **Skip to Apply** accepts the suggested set.
+{{< /step >}}
+
+{{< step "Apply" >}}
+**Apply changes** saves everything you ticked in one go, and it syncs to every device.
+{{< /step >}}
+
+{{< /steps >}}
 
 > [!NOTE]
-> Searching is open to anyone signed in, but **applying** a match (or editing) needs edit permission. That's admins, or members you've granted it to.
+> **Tags are yours.** Matching never changes them.
+
+### Undoing a match
+
+After a match, the book's page says when it was matched and by whom. **See what changed** lists every field the match touched, and **Undo last match** puts them all back.
+
+Undo is available until the book is changed again. After that, the earlier state is no longer a clean thing to return to.
+
+### Audible stores
+
+Audible's catalogue differs by country. An admin sets the library's **Store region** in Administration, and any single search can pick a different store. There are ten: US, UK, Germany, France, Australia, Canada, Japan, Italy, India and Spain.
+
+### Who can match
+
+Finding, applying and undoing a match all need the **Edit metadata** permission, which members have by default. See [People & permissions](/admin/people/).
 
 ## Editing by hand
 
-Prefer to type it yourself? Every book has an edit form where you can set:
+Every book has an edit form where you can set:
 
 - **Text**: title, sort title, subtitle, description, publisher, year, language, ISBN, ASIN, and the abridged flag.
 - **People**: contributors by role: author, narrator, editor, translator, and more.
 - **Series**: the series and the book's number within it.
 - **Genres, tags, and moods**: pick genres from your existing list; create tags and moods on the fly.
-- **Chapters** and the **cover** (below).
+- **Chapters** and the **cover**. See [Editing your library](/admin/editing/).
+
+### Editing several books at once
+
+Select books in the Library and choose **Edit**. You can set publisher, language and publication year, and **add** a series, contributors, genres, tags or moods. Adding never removes what's already there, and a **What will change** summary shows the result before you apply it.
 
 ## Covers
 
-You can set a cover three ways: choose one offered during an Audible/iTunes match, run a dedicated **cover search**, or **upload your own** from the edit form.
+You can set a cover two ways: choose one offered during a match, or **upload your own** from the edit form.
 
 > [!TIP]
 > An **uploaded** cover always wins and survives rescans. It's the way to pin a specific image.
 
-## Authors and narrators
+## Will my changes stick? {#will-my-changes-stick}
 
-Contributors can be matched too: search Audible for an author or narrator to pull in their **name, biography, and photo**. (Series don't have online artwork.)
+Yes. ListenUp remembers where each field's value came from, and a weaker source never overwrites a stronger one:
 
-## Will my changes stick?
+| Source | Strength |
+| --- | --- |
+| Your files, read by a scan | Lowest |
+| A match you applied | Higher |
+| An edit made by hand | Highest |
 
-Two things are **always** protected from rescans: an **uploaded cover** and **hand-edited chapters**.
+So a rescan never undoes a match or a hand edit, even if the file's tags change. A later match leaves hand-edited fields alone unless you tick them. Uploaded covers and edited chapters are protected the same way.
 
-Most other fields are *derived from your files*, so if you later change a book's audio or its tags, the next scan re-reads that book and can replace your text edits with what the files say. (Books you don't touch are left alone.)
+### The `listenup.json` file
 
-> [!WARNING]
-> To make a text change **permanent**, surviving any future file change, put it in the book's `metadata.json` sidecar. ListenUp reads `metadata.json` at the top of its [precedence order](/library/folder-structure/) and never writes to your files, so a sidecar value always sticks. Editing in the app is great for quick fixes; the sidecar is for changes you want to keep no matter what.
+When you match or edit a book, ListenUp also saves that work to a small `listenup.json` file in the book's folder. If you ever rebuild the server from scratch, or copy the folder to a friend's ListenUp, a scan reads the file back and your edits return.
+
+This needs a library the server can write to. With the library mounted read-only, the file can't be written and your edits live only in ListenUp's database, which is one more reason to keep [backups](/server/backups/). See [Read-only or writable?](/getting-started/installation/#read-only-or-writable).
+
+## Ratings from outside
+
+A book's **ListenUp score** combines ratings from outside sources. Those are fetched without anyone asking: a little of the library is refreshed each night, and a book's Hardcover rating is fetched when someone opens it. Admins can refresh a book's ratings by hand from its page.
+
+## What leaves your server
+
+Matching and ratings talk to the catalogues directly from your server, never through us:
+
+- **Audible** and **Audnexus**, for book and author details.
+- **iTunes**, for cover art.
+- **Hardcover**, for details and ratings.
+
+A search sends what's needed to find the book: a title and author, or an ASIN or ISBN. Nothing about your users is included. [Hardcover accounts](/library/hardcover/) are a separate, opt-in feature.
 
 ## Not supported yet
 
 - **Bulk matching**: it's one book at a time.
-- **Automatic enrichment**: a match is always something you start.
-- **ISBN lookup** and **series artwork**: there's no online source for these.
+- **Automatic matching**: a match is always something you start.
+- **Series artwork**: there's no online source for it.

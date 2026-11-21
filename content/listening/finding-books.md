@@ -18,6 +18,11 @@ Home is about you. From the top:
 - **Your last 7 days**: a chart of your listening, your current and best streak, your top genres, and a link to the leaderboard.
 - **My shelves**: your [shelves](/library/shelves/), with a shortcut to make a new one.
 
+{{< shots >}}
+{{< shot ios="home-ios.png" caption="Home on iPhone" >}}
+{{< shot ios="library-ios.png" caption="The Library" >}}
+{{< /shots >}}
+
 With no connection, Home says so in one line and carries on: downloaded books play as usual.
 
 ## Library

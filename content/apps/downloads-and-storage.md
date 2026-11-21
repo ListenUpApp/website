@@ -29,6 +29,10 @@ Downloads wait for Wi-Fi by default, and a waiting book says so. To allow downlo
 
 The **Storage** page shows how much space ListenUp is using and lists every book downloaded to your device. Delete one book from there, or clear them all. A book that's playing can't be deleted until you stop it.
 
+{{< shots >}}
+{{< shot ios="storage-ios.png" caption="Storage on iPhone" >}}
+{{< /shots >}}
+
 - **Android**: **Settings → Storage → Manage storage**.
 - **iOS**: the **Downloads** row on your profile page, or **Settings → Downloads → Manage storage**.
 

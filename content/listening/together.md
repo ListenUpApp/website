@@ -21,6 +21,11 @@ Discover is about everyone else. From the top:
 - **Shelves by others**: public shelves, grouped by who made them.
 - **Recently added**: the ten newest books on the server.
 
+{{< shots >}}
+{{< shot ios="discover-ios.png" caption="Discover on iPhone" >}}
+{{< shot ios="book-readers-ios.png" caption="Readers on a book's page" >}}
+{{< /shots >}}
+
 ## Activity
 
 The feed records the moments worth knowing about: someone **started** or **finished** a book, **listened** to part of one, reached a **listening streak** or a total-hours milestone, **created a shelf**, or **joined the server**. **See all activity** opens the last hundred entries.

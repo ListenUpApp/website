@@ -9,6 +9,11 @@ lede = "Everything the player does, and the settings behind it. It works the sam
 
 ## Now Playing
 
+{{< shots >}}
+{{< shot ios="now-playing-ios.png" caption="Now Playing on iPhone" >}}
+{{< shot ios="book-detail-ios.png" caption="A book's page" >}}
+{{< /shots >}}
+
 The main controls are the same everywhere: **previous chapter**, **skip back**, **play/pause**, **skip forward**, **next chapter**. The scrubber covers the **current chapter**, not the whole book, so a small drag is a small move.
 
 **Previous chapter** goes to the start of the chapter you're in first. Press it again within three seconds to go to the one before.

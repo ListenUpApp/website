@@ -21,13 +21,17 @@ If you delete a download and then play the book again, ListenUp takes the hint: 
 > [!TIP]
 > Heading somewhere without a connection? Download what you want to hear first. Anything already on your device plays fully offline.
 
+## Wi-Fi only
+
+Downloads wait for Wi-Fi by default, and a waiting book says so. To allow downloads on mobile data, turn off **Download on Wi-Fi only** in Settings.
+
 ## Managing storage
 
-The **Storage** page shows how much space ListenUp is using and lists every book currently downloaded to your device, and you can delete downloads from there too.
+The **Storage** page shows how much space ListenUp is using and lists every book downloaded to your device. Delete one book from there, or clear them all. A book that's playing can't be deleted until you stop it.
 
-- **Android**: open it from the **profile dropdown**.
-- **iOS**: open it from the link on your **profile page**.
+- **Android**: **Settings → Storage → Manage storage**.
+- **iOS**: the **Downloads** row on your profile page, or **Settings → Downloads → Manage storage**.
 
 ## When you finish a book
 
-Finish a book and ListenUp removes its download automatically, freeing up space for your next listen.
+A finished book stays downloaded until you delete it. Finishing does reset the "don't download this one" hint from above, so if you start the book again later it downloads as usual.

@@ -13,6 +13,8 @@ If you're the only person on your server, all of this stays out of the way. It g
 
 Discover is about everyone else. From the top:
 
+{{< webshot src="web-discover.png" alt="Discover in the web client, with who is listening, the leaderboard and the activity feed" caption="Discover: who's listening, the leaderboard and the activity feed" >}}
+
 - **Listening now**: who has a book playing this minute, followed by what others were most recently listening to over the last two weeks.
 - **Something new**: ten books you haven't started, picked so that a series starts at its first book. **Shuffle** deals another ten.
 - **Leaderboard** and **Activity** (below).

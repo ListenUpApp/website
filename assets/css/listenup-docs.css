@@ -1029,3 +1029,11 @@ html.js .config-reference { display: none; }
 .cfg-out .outfoot .reset:hover { color: #F2A088; }
 .t-out-empty { color: var(--code-dim); font-style: italic; }
 
+
+/* webshot — a wide web-client screenshot in a plain window frame */
+.webshot { margin: 10px 0 28px; }
+.webshot .win { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--paper); box-shadow: 0 10px 30px -18px rgba(0,0,0,.35); cursor: zoom-in; }
+.webshot .win-bar { display: flex; gap: 6px; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.webshot .win-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.webshot img { display: block; width: 100%; height: auto; }
+.webshot figcaption { margin-top: 9px; font-size: 13px; color: var(--ink-3); text-align: center; }

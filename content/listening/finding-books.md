@@ -11,6 +11,8 @@ lede = "Three places to find your next listen: Home for what you're in the middl
 
 Home is about you. From the top:
 
+{{< webshot src="web-home.png" alt="Home in the web client, with books in progress, the last seven days of listening, and shelves" caption="Home, in the web client" >}}
+
 - **One card that changes with where you are.** Just finished a book? It asks how it was and offers the next one in the series. Nothing in progress? It suggests the next book in a series you're reading. Brand new? It points you at something to start.
 - **Everything in progress**: every book you've started and not finished.
 - **Your last 7 days**: a chart of your listening, your current and best streak, your top genres, and a link to the leaderboard.

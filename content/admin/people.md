@@ -7,6 +7,8 @@ eyebrow = "Administration"
 lede = "Who is on your server, what each person may do, how new people get in, and how to get someone back in when they're locked out."
 +++
 
+{{< webshot src="web-admin.png" alt="The admin page in the web client, listing members with their roles" caption="Administration in the web client: who can join, and everyone on the server" >}}
+
 ## Roles
 
 Everyone on a server is one of three things:

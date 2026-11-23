@@ -25,7 +25,7 @@ Collections are created and managed by **admins**, in two places:
 - A book's **detail page**: choose **Add to Collection** from the overflow menu.
 
 > [!TIP]
-> Multiple books can be added to a collection by long pressing on a book cover, selecting the relavent titles and hitting 'Add to Collection'
+> Multiple books can be added to a collection by long pressing on a book cover, selecting the relevant titles and hitting 'Add to Collection'
 
 The moment a book is added to a collection, it's **pulled from every active client** belonging to a user who doesn't have access, in real time.
 
@@ -57,9 +57,11 @@ Think of **All Books** as the default door to your library. Anyone with access t
 
 ### Inbox
 
-The **Inbox** is optional. turn it on under **Administration**. When it's enabled, newly scanned books land in the Inbox *before* they reach the library, so you can:
+The **Inbox** is optional. Turn it on with **Hold new books for review** in server settings. When it's enabled, newly scanned books land in the Inbox *before* they reach the library, hidden from every member and unplayable, so you can:
 
 - Get metadata and details right before anyone else sees the book, and
 - Safely sort books into collections without briefly leaking them to users first.
+
+The Inbox also has a **Needs attention** list for books a scan had trouble with: no audio, an unreadable file or tags, or no title. Those appear there whether or not holding is on.
 
 Books stay in the Inbox until you **release** them. Once released, they're sorted automatically into each user's library according to the collections they belong to.

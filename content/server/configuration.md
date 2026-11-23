@@ -1,7 +1,7 @@
 +++
 title = "Configuration"
 weight = 10
-description = "Every ListenUp environment variable: core, secrets, registration, scanner, and logging. Build a ready-to-run config."
+description = "Every ListenUp environment variable: core, secrets, registration, push, scanner, transcoding, and logging. Build a ready-to-run config."
 [params]
 eyebrow = "Server Setup"
 lede = "ListenUp is configured entirely through environment variables, and everything has a sensible default. Toggle the settings you want and copy a ready-to-run config."
@@ -26,3 +26,4 @@ Flip a switch to include a variable, set its value, and your config assembles li
 - **Paths must be absolute.** `LISTENUP_HOME` reads `~` literally (it isn't shell-expanded), so write the full path.
 - **Durations are Kotlin [`Duration` strings](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/)** like `6h` or `30m`. `0` disables the periodic rescan while the live file watcher keeps running.
 - **Invalid values fail fast.** A bad `LISTENUP_METADATA_PRECEDENCE` token, or a JWT secret under 32 bytes, stops startup rather than running misconfigured.
+- **Push has no variable to turn it off.** That switch is an admin setting in the app; the variables here only choose which relay delivers notifications.

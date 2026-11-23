@@ -32,12 +32,16 @@ If you want the persistent version, three ways to a secure origin:
 
 ## There is nothing to install
 
+{{< webshot src="web-library.png" alt="The ListenUp library open in a browser, with books grouped by letter" caption="The Library, in a browser" >}}
+
 The web client ships **inside the server**. If you are running ListenUp, you already have it: open your server's address in a browser and the client is served at `/`.
 
 No app store, no sideloading, no separate download. Updating the server updates the web client with it.
 
 > [!NOTE]
 > This is the same library, player, editing and admin surface as the phone apps, not a cut-down remote control. If you can do it on your phone you can very likely do it here.
+
+{{< webshot src="web-book-detail.png" alt="A book's page in the web client, with chapters, readers and ratings" caption="A book's page: chapters, who else is reading, and ratings" >}}
 
 ## Sign in
 
@@ -59,7 +63,7 @@ Two real limits, worth knowing before you rely on it:
 
 Everything else is the same, including a couple of things worth calling out:
 
-- **Formats a browser cannot decode play anyway.** The server transcodes them on the fly, so an xHE-AAC book that a browser would refuse still plays. See [Transcoding](/server/configuration/).
+- **Formats a browser cannot decode play anyway.** The server transcodes them on the fly, so an xHE-AAC book that a browser would refuse still plays. See [Transcoding](/server/transcoding/).
 - **Your position follows you.** Start a book in the browser, pick it up on your phone mid-sentence, and back again.
 
 ## Browser support

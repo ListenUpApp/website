@@ -27,7 +27,7 @@ Connect to your server and the app downloads everything it needs to function ind
 The internet is great, but especially for self-hosted software it can be unreliable. We wanted something that worked whether you're on a plane, in a power outage, or roaming on a road trip.
 {{< /principle >}}
 {{< principle accent="amber" icon="people" title="Social-First" ethos="Books are better shared." >}}
-ListenUp is designed as an inherently social experience. See what everyone on your server is reading. Discover new books through Lenses, curated views into collections you might not have found on your own. Build streaks together, and let your listening inspire others.
+ListenUp is designed as an inherently social experience. See what everyone on your server is reading. Discover new books through the shelves other people build, and through what they're listening to right now. Build streaks together, and let your listening inspire others.
 
 This doesn't mean ListenUp is noisy. If you're the only person on your server, everything works beautifully. But when you invite others in, the experience gets richer, not more complicated.
 {{< /principle >}}
@@ -43,11 +43,11 @@ Every automatic feature has a manual escape hatch. You can always type in a serv
 These aren't just words on a page. They show up in concrete decisions:
 
 {{< features >}}
-{{< feature icon="phone" title="Native clients" >}}Real native apps for iOS and Android. No Electron, no web views. Better performance, better battery, interfaces that belong on your device.{{< /feature >}}
+{{< feature icon="phone" title="Native clients" >}}Real native apps for iOS and Android: no Electron, no web views. Better performance, better battery, interfaces that belong on your device. In a browser, the server hosts a web client of its own.{{< /feature >}}
 {{< feature icon="refresh" title="Background sync" >}}Books download automatically based on your listening patterns. Your next chapter is always ready before you need it.{{< /feature >}}
 {{< feature icon="sliders" title="Manual everything" >}}Convenience features are conveniences, not requirements. We never lock you into automation.{{< /feature >}}
-{{< feature icon="waveform" title="Modern codec support" >}}Every format your device supports, including xHE-AAC and Dolby Atmos, with transcoding on the roadmap for older devices.{{< /feature >}}
-{{< feature icon="screens" title="Platform depth" wide="true" >}}Today, iOS and Android. The goal is every device you use, natively and beautifully: the web, the desktop, watches, smart TVs, car dashboards, and XR.{{< /feature >}}
+{{< feature icon="waveform" title="Modern codec support" >}}Every format your device supports, including xHE-AAC and Dolby Atmos. In a browser, the server transcodes whatever the browser can't decode.{{< /feature >}}
+{{< feature icon="screens" title="Platform depth" wide="true" >}}Today: iOS, Android, the web, and the car through CarPlay and Android Auto. The goal is every device you use, natively and beautifully: the desktop, watches, smart TVs, and XR.{{< /feature >}}
 {{< /features >}}
 
 ## Differences from Audiobookshelf
@@ -104,16 +104,16 @@ ListenUp is opinionated software, built for people who love audiobooks and want 
     <div class="devs">
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"></rect><path d="M10 18h4"></path></svg><span class="dl">iOS</span></div>
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"></rect><path d="M10 18h4"></path></svg><span class="dl">Android</span></div>
+      <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path></svg><span class="dl">Web</span></div>
+      <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13.5 4.6 8A2 2 0 0 1 6.5 6.6h11A2 2 0 0 1 19.4 8L21 13.5M3 13.5h18v3.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1ZM6.5 15.5h.5M17 15.5h.5"></path></svg><span class="dl">Car</span></div>
     </div>
   </div>
   <div class="spec-group soon">
     <div class="sg-label">On the roadmap</div>
     <div class="devs">
-      <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path></svg><span class="dl">Web</span></div>
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg><span class="dl">Desktop</span></div>
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="3"></rect><path d="M9 7l.4-3h5.2L15 7M9 17l.4 3h5.2l.4-3"></path></svg><span class="dl">Watch</span></div>
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg><span class="dl">TV</span></div>
-      <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13.5 4.6 8A2 2 0 0 1 6.5 6.6h11A2 2 0 0 1 19.4 8L21 13.5M3 13.5h18v3.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1ZM6.5 15.5h.5M17 15.5h.5"></path></svg><span class="dl">Car</span></div>
       <div class="device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9.5h19l-1 5.5a3 3 0 0 1-3 2.4 3 3 0 0 1-3-2.4l-.4-2h-2.2l-.4 2a3 3 0 0 1-3 2.4 3 3 0 0 1-3-2.4Z"></path></svg><span class="dl">XR</span></div>
     </div>
   </div>

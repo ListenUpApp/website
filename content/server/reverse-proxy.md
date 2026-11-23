@@ -58,6 +58,15 @@ server {
 
 Traefik streams responses without buffering by default, so a standard `Host`-rule router pointed at the container on port `8080` works for both WebSocket and SSE. No special middleware required. Use its built-in ACME resolver for automatic certificates.
 
+## Tell the server it's behind a proxy {#trust-proxy}
+
+Behind a proxy, every request reaches ListenUp from the proxy's address. The server limits sign-in attempts per address, so without help it sees all your users as one visitor, and one person's failed sign-ins can lock everyone out for a minute.
+
+Set `LISTENUP_TRUST_PROXY=true` and the server reads the real address from the `X-Forwarded-For` header your proxy adds.
+
+> [!WARNING]
+> Turn this on **only** when the server can't be reached except through the proxy. If it can, anyone can send that header themselves and dodge the limits.
+
 ## Set the Remote URL
 
 Whichever proxy you use, finish in the app: open **Administration → Settings** and set the **Remote URL** to your public address (`https://listen.example.com`). That's the address ListenUp bakes into invite links and advertises on your network.

@@ -44,6 +44,19 @@ groups:
         default: "true"
         type: bool
         purpose: "Takes an exclusive OS lock on the data directory so two server processes can't share one home and race the scan spool."
+      - name: LISTENUP_DB_URL
+        default: "(empty)"
+        type: text
+        example: "jdbc:sqlite:/fast-disk/listenup.db"
+        purpose: "Moves only the database. Leave unset and it lives at listenup.db inside LISTENUP_HOME."
+      - name: LISTENUP_TRUST_PROXY
+        default: "false"
+        type: bool
+        purpose: "Trust the X-Forwarded-For header, so sign-in rate limits count each real visitor instead of the proxy. Turn on only behind a reverse proxy you control, with the server not reachable directly."
+      - name: LISTENUP_WEB_ROOT
+        default: "/app/web"
+        type: path
+        purpose: "Where the web client is served from. The image sets it; set it to an empty value to serve no web client at all."
 
   - id: secrets
     title: Secrets
@@ -74,21 +87,17 @@ groups:
   - id: push
     title: Push notifications
     icon: phone
-    note: "Push is on by default and routes through the ListenUp relay, which stores and logs nothing about the notifications it forwards. Payloads carry only opaque IDs that resolve to real content on-device."
+    note: "Push is on by default and routes through the ListenUp relay, which stores and logs nothing about the notifications it forwards. Payloads carry only opaque IDs that resolve to real content on-device. Turning push off is an admin setting in the app, not a variable."
     vars:
-      - name: LISTENUP_PUSH_ENABLED
-        default: "true"
-        type: bool
-        purpose: "Deploy-time master switch for push. Set false to turn push off for the whole instance: the server registers no device tokens and sends nothing, overriding the runtime admin toggle."
       - name: LISTENUP_PUSH_RELAY_URL
         default: "https://push.listenup.audio"
         type: text
         example: "https://push.example.com"
         purpose: "Which relay delivers notifications to FCM and APNs. Point this at your own relay to keep delivery entirely in-house."
-      - name: LISTENUP_PUSH_RELAY_TOKEN
+      - name: LISTENUP_PUSH_SENDER_TOKEN
         default: "(empty)"
         type: text
-        purpose: "Optional shared secret the relay validates before sending. Never logged. Leave unset unless your relay requires it."
+        purpose: "Shared secret presented to the relay. Never logged. Leave unset unless you run your own relay and it expects one."
 
   - id: scanner
     title: Scanner & library
@@ -119,10 +128,59 @@ groups:
         example: "6h"
         purpose: "Periodic full-rescan backstop, as a Kotlin Duration (e.g. 30m). 0 or blank disables it; the live file watcher keeps running."
 
+  - id: transcoding
+    title: Transcoding
+    icon: refresh
+    note: "The server transcodes only when a client says it can't decode a book's audio, which in practice means browsers. FFmpeg ships inside the image, so there is nothing to install."
+    vars:
+      - name: LISTENUP_TRANSCODE_CACHE_BYTES
+        default: "10737418240"
+        type: int
+        example: "10737418240"
+        purpose: "Disk budget for transcoded audio under LISTENUP_HOME/transcode, in bytes (10 GiB by default). The oldest files are cleared first. 0 turns transcoding off."
+      - name: LISTENUP_TRANSCODE_MAX_SESSIONS
+        default: "2"
+        type: int
+        example: "2"
+        purpose: "How many books may transcode at once. A listener over the limit is asked to retry rather than queued."
+      - name: LISTENUP_TRANSCODE_BITRATE_KBPS
+        default: "64"
+        type: int
+        example: "64"
+        purpose: "Bitrate of the transcoded AAC stream, in kbps."
+      - name: LISTENUP_TRANSCODE_PROBE_ON_STARTUP
+        default: "true"
+        type: bool
+        purpose: "Checks at startup that FFmpeg can encode. If it can't, books are served untranscoded."
+      - name: LISTENUP_FFMPEG
+        default: "(bundled)"
+        type: path
+        example: /usr/local/bin/ffmpeg
+        purpose: "Path to a different FFmpeg binary. Only useful outside the official image."
+
+  - id: integrations
+    title: Integrations
+    icon: target
+    vars:
+      - name: LISTENUP_HARDCOVER_CLIENT_ID
+        default: "(ListenUp's registered app)"
+        type: text
+        purpose: "The app identity members use to connect a Hardcover account. Set it to an empty value to turn Hardcover off for the whole server."
+
+  - id: recovery
+    title: Recovery
+    icon: shield
+    note: "Not a setting to leave on. See Accounts & recovery for the full procedure."
+    vars:
+      - name: LISTENUP_ROOT_RESET
+        default: "(unset)"
+        type: bool
+        purpose: "Set to true for one start to print a one-time owner password reset code to the console. Remove it as soon as you've used it."
+
   - id: logging
     title: Logging
     icon: waveform
-    note: "For a per-package override, set LISTENUP_LOG_LEVEL_<prefix> (underscores become dots; the longest matching prefix wins), e.g. LISTENUP_LOG_LEVEL_com_calypsan_listenup_server_scanner=DEBUG."
+    note: "The server also writes its log to logs/server.log inside LISTENUP_HOME, rotating at 10 MB and keeping four older files."
     vars:
       - name: LISTENUP_LOG_LEVEL
         default: INFO

@@ -1,0 +1,19 @@
+{{- /* webshot — one wide screenshot of the web client, in a plain browser-window frame.
+       Click opens the full-size image.
+       Usage: {{< webshot src="web-library.png" alt="The Library in a browser" caption="The Library" >}}
+       Images live in assets/images/ and are resized + WebP-converted by Hugo. */ -}}
+{{- $cap := .Get "caption" -}}
+{{- $alt := .Get "alt" | default $cap -}}
+{{- with resources.Get (printf "images/%s" (.Get "src")) -}}
+  {{- $img := .Process "resize 1600x q85 webp" -}}
+  {{- $full := .Process "resize 2880x q85 webp" -}}
+<figure class="webshot">
+  <a class="win" href="{{ $full.RelPermalink }}" aria-label="View larger">
+    <span class="win-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+    <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" loading="lazy" decoding="async" alt="{{ $alt }}" />
+  </a>
+  {{- with $cap }}<figcaption>{{ . }}</figcaption>{{ end -}}
+</figure>
+{{- else -}}
+  {{- warnf "webshot shortcode: image not found at assets/images/%s" (.Get "src") -}}
+{{- end -}}

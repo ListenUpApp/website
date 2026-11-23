@@ -6,7 +6,7 @@
     <div>
       <div class="eyebrow"><span class="pulse"></span>Self-hosted audiobooks · {{ partialCached "version.html" . "version" }}</div>
       <h1>Your audiobooks.<br /><em>Your server.</em></h1>
-      <p class="sub">ListenUp is the self-hosted audiobook server that scans your library, fetches beautiful metadata, and streams to native apps on iOS and Android.</p>
+      <p class="sub">ListenUp is the self-hosted audiobook server that scans your library, fetches beautiful metadata, and streams to native apps on iOS and Android, and to any browser.</p>
       <div class="hero-cta">
         <a class="btn-primary" href="{{ "/getting-started/installation/" | relURL }}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
@@ -36,7 +36,7 @@
     <span class="t-flag">-e</span> LISTENUP_LIBRARY_PATH=<span class="t-str">/audiobooks</span> <span class="t-pun">\</span>
     ghcr.io/listenupapp/listenup-server:<span class="t-key">latest</span>
 
-<span class="t-cmt"># → then open the ListenUp app to finish setup</span></pre>
+<span class="t-cmt"># → then open http://localhost:8080, or the ListenUp app, to finish setup</span></pre>
       </div>
       <div class="meta-row">
         <span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 13 4 4L19 7"/></svg>Open source · AGPL-3.0</span>
@@ -122,10 +122,14 @@
       <span class="pic ios">{{ partial "icon" "apple" }}</span>
       <div><h3>iOS &amp; iPadOS</h3><p>Native SwiftUI · Offline-first</p></div>
     </a>
-    <div class="plat">
+    <a class="plat" href="{{ "/apps/android/" | relURL }}">
       <span class="pic android">{{ partial "icon" "android" }}</span>
       <div><h3>Android</h3><p>Native Jetpack Compose · Offline-first</p></div>
-    </div>
+    </a>
+    <a class="plat" href="{{ "/apps/web/" | relURL }}">
+      <span class="pic web">{{ partial "icon" "screens" }}</span>
+      <div><h3>Web</h3><p>Served by your server · Nothing to install</p></div>
+    </a>
   </section>
 
   <!-- HELP STRIP -->

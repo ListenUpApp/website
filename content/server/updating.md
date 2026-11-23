@@ -28,4 +28,4 @@ docker rm -f listenup
 > The database schema migrates **forward** automatically when the new version starts. Migrations run before the server accepts connections, so the first boot after an update may take a moment longer than usual.
 
 > [!TIP]
-> For production, pin a specific version instead of `:latest` (for example `ghcr.io/listenupapp/listenup-server:0.6.0`) so updates happen when you choose them, and check the changelog before moving between versions.
+> For production, pin a specific version instead of `:latest` (for example `ghcr.io/listenupapp/listenup-server:0.9.14`) so updates happen when you choose them, and check the changelog before moving between versions.

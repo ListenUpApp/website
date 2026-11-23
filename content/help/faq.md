@@ -9,7 +9,7 @@ lede = "Quick answers to the questions that come up most, with links to the full
 
 ## What platforms does ListenUp run on?
 
-Apps for iOS and Android, currently in beta, both talking to a self-hosted server (a `linux/amd64` Docker image). More platforms are on the roadmap. See [Introduction](/getting-started/introduction/) and [Installation](/getting-started/installation/).
+Apps for iOS (iOS 26 or later) and Android (Android 11 or later), a [web client](/apps/web/) the server hosts itself, and CarPlay and Android Auto through the phone apps. All are in beta, and all talk to a server you host (a `linux/amd64` Docker image). See [Introduction](/getting-started/introduction/) and [Installation](/getting-started/installation/).
 
 ## Where does my data live?
 
@@ -41,4 +41,18 @@ Yes — listening progress and play history import from an Audiobookshelf backup
 
 ## Does ListenUp modify my audio files?
 
-Never. Your library is mounted read-only and everything ListenUp derives — metadata, progress, covers — lives in its own database instead. See [Installation](/getting-started/installation/).
+Never. ListenUp doesn't write tags into your audio or re-encode it.
+
+Whether it can touch the *folder* is up to you. Mounted read-only, it changes nothing at all. Mounted writable, it saves your edits in a small `listenup.json` beside each book, and admins can upload, organise and delete books from the apps. See [Read-only or writable?](/getting-started/installation/#read-only-or-writable)
+
+## I forgot my password — what now?
+
+Choose **Forgot password?** on the sign-in screen. An admin on your server approves the request and gives you a short code to finish. If you *are* the only admin, see [When the owner is locked out](/admin/people/#root-reset).
+
+## Can other people see what I'm listening to?
+
+On a shared server, yes: members see each other's listening, finishes and ratings. Shelves can be private, and admins can hide books with collections. See [What others can see of you](/listening/together/#privacy).
+
+## Something's wrong — how do I report it?
+
+Share the app's log from **Settings → About → Share logs** (on the web, **Download logs**), and the server's from its data directory. See [Logs & health](/server/logs/).

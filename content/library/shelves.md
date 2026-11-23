@@ -13,8 +13,18 @@ A **shelf** is a list of books you put together yourself: "Up Next," "Favorites,
 
 You can make a shelf two ways:
 
-- From your **profile** page.
-- From any book, tap **Add to Shelf**.
+- From **My shelves** on Home, tap **New shelf**.
+- From any book, choose **Add to shelf**.
+
+## Ordering a shelf
+
+Drag books into the order you want; only the shelf's owner can. On Android, switch the sort to **Manual** first. The other sorts there are newest or oldest added, title, and author.
+
+Reordering works offline and syncs when you're back.
+
+## The To Read shelf
+
+Every account starts with a **To Read** shelf. It's an ordinary shelf, public to begin with. If you [connect Hardcover](/library/hardcover/), your Want to Read list arrives here.
 
 ## Public or private
 

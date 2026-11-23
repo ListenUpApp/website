@@ -11,7 +11,7 @@ lede = "Everything ListenUp knows lives in one place, so backing up is mostly a 
 
 ListenUp keeps all of its state under the **`LISTENUP_HOME` data directory** (the `listenup-data` volume from [Installation](/getting-started/installation/)): the database, your auto-generated secrets (`secrets.properties`), and cached artwork. Back up that directory and you've captured the whole server.
 
-Your audiobooks are your own files; back them up however you already do. ListenUp only ever reads them, so they're never at risk from the server.
+Your audiobooks are your own files; back them up however you already do. ListenUp never alters the audio, but an admin can [delete a book](/admin/editing/#deleting-a-book) from the apps when the library is mounted writable, so a backup of the files matters too.
 
 > [!TIP]
 > For a *consistent* copy of a running server, use an in-app snapshot (below). It captures the database safely while the server is live. A plain file copy of `LISTENUP_HOME` works too; stop the container first so the database isn't mid-write.

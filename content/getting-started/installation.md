@@ -16,7 +16,8 @@ ListenUp's server is a small native binary, so it's happy on modest hardware.
 
 - **CPU & OS**: a 64-bit **x86 (amd64)** Linux host with Docker. The server currently ships as a native `linux/amd64` image; arm64 isn't supported yet.
 - **Memory**: light. There's no JVM, so a small VPS, a NAS, or a spare home server is plenty.
-- **Storage**: room for your audiobooks, plus a little for ListenUp's own data directory (the database and cached cover art).
+- **Storage**: room for your audiobooks, plus a little for ListenUp's own data directory (the database and cached cover art). If people will listen in a browser, allow up to 10 GB more for [transcoded audio](/server/transcoding/).
+- **Apps**: iOS 26 or later, Android 11 or later, or any current browser.
 
 > [!TIP]
 > **Already running a media server?** ListenUp sits comfortably alongside Plex, Jellyfin or *arr stacks. Give it its own port (default `8080`) and point it at a read-only mount of your audiobook folder.
@@ -56,10 +57,26 @@ volumes:
   listenup-data:
 ```
 
-> [!WARNING]
-> Mount your audiobooks **read-only** (`:ro`). ListenUp only ever reads them. It never moves, renames, or writes tags back into your files. Everything it derives lives in its own database instead.
+> [!NOTE]
+> These examples mount your audiobooks **read-only** (`:ro`), which guarantees ListenUp can't change anything in that folder. That's the cautious choice, and a few features need the opposite. See [Read-only or writable?](#read-only-or-writable) below.
 
 `LISTENUP_LIBRARY_PATH` is optional: leave it unset to start with an empty library and add your folders later from the app. Multiple folders are separated by `:` (for example `-e LISTENUP_LIBRARY_PATH=/audiobooks:/podcasts`). See the [Configuration reference](/server/configuration/) for every setting.
+
+### Read-only or writable? {#read-only-or-writable}
+
+ListenUp **never changes your audio files**: it doesn't write tags into them or re-encode them. What it can do, when the folder is writable, is work *around* them.
+
+| | Read-only (`:ro`) | Writable |
+| --- | --- | --- |
+| Scanning, playback, matching, editing | ✅ | ✅ |
+| Edits saved beside each book in a `listenup.json` file | ❌ kept in the database only | ✅ |
+| [Uploading books](/admin/editing/#uploading-books) from the apps | ❌ | ✅ |
+| [Organising files](/admin/editing/#organising-files) into folders | ❌ | ✅ |
+| [Deleting a book](/admin/editing/#deleting-a-book) from the apps | ❌ | ✅ |
+
+With a read-only mount those features report that the folder isn't writable, and everything else carries on. The server notes it in the log at startup.
+
+Choose **read-only** if another tool manages your files, or you simply want the guarantee. Choose **writable** (drop the `:ro`) if you want ListenUp to manage the library: with it, the only files it creates unasked are the small `listenup.json` beside a book you've edited and a momentary empty file at startup to test the folder. Moving and deleting only ever happen when an admin asks.
 
 ### Data directory permissions {#data-directory-permissions}
 
@@ -92,11 +109,11 @@ On bridge networking the apps won't discover the server automatically — enter 
 
 ### Verify it's running
 
-Once the container is up, check the health endpoint. A `200 OK` with `{"status":"ok"}` means the server is ready.
+Once the container is up, check the health endpoint. A `200 OK` whose body starts with `"status":"ok"` means the server is ready; the rest is the version and uptime.
 
 ```bash {file="terminal"}
 curl http://localhost:8080/healthz
-# {"status":"ok"}
+# {"status":"ok", …}
 ```
 
 ## First-run setup {#first-run}
@@ -138,4 +155,6 @@ With the server running and the app connected, the Server Setup guides cover the
 - **[Configuration](/server/configuration/)**: every environment variable.
 - **[Reverse proxy & HTTPS](/server/reverse-proxy/)**: remote-access options — VPN first, proxy at your own risk.
 - **[Updating](/server/updating/)**: pull a new image and restart.
+- **[Transcoding](/server/transcoding/)**: what the server converts for browsers, and how to tune it.
 - **[Backups](/server/backups/)**: snapshots, restore, and migrating from Audiobookshelf.
+- **[Logs & health](/server/logs/)**: where to look when something goes wrong.

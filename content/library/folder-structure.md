@@ -121,7 +121,9 @@ When sources disagree on a field, ListenUp resolves them in a set order (`metada
 
 ## Supported audio formats
 
-ListenUp plays **M4B** and **MP3**, the two standard audiobook file formats, with M4B preferred for its built-in chapters. Closely related files such as **M4A** generally work too. Within those, ListenUp plays whatever codec your device can decode, including modern ones like xHE-AAC and Dolby Atmos.
+**M4B** and **MP3** are the two standard audiobook formats, and M4B is preferred for its built-in chapters. ListenUp also picks up M4A, MP4, AAC, FLAC, Ogg and Opus, WAV, AIFF, WMA, WebM, MKA and CAF files.
+
+Scanning a file and playing it are two different things. The phone apps play whatever codec your device can decode, including modern ones like xHE-AAC and Dolby Atmos. In a browser, the server [converts](/server/transcoding/) what the browser can't decode.
 
 ## What ListenUp skips
 

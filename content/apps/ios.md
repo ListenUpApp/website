@@ -16,6 +16,10 @@ ListenUp for iOS ships through **TestFlight** during the beta. [Join the beta on
 
 ## Connect to your server {#connect}
 
+{{< shots >}}
+{{< shot ios="connect-ios.png" caption="Finding your server" >}}
+{{< /shots >}}
+
 {{< steps >}}
 
 {{< step "Find your server" >}}
